@@ -14,25 +14,18 @@ const init = () => {
 const initAuthors = () => {
 	return JSON.parse(localStorage.getItem('authors')) || mockedAuthorsList;
 };
-export const Courses = (
-	{
-		/* allCourses, allAuthors*/
-	}
-) => {
+export const Courses = ({}) => {
 	let allCourses = init();
 	let allAuthors = initAuthors();
-	// console.log(allAuthors);
-	//
+
 	const [courses, setCourses] = useState([]);
 	const [state, setState] = useState(false);
 
 	const handleChildDataChange = (newData) => {
 		setCourses(newData);
-		console.log('parent', courses);
 	};
 
 	const clickAdding = () => {
-		console.log('click', state);
 		setState((state) => !state);
 	};
 

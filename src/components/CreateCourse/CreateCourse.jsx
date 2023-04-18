@@ -1,29 +1,22 @@
 import './creaeteCourse.css';
 
 import {
+	createAuthorReducer,
+	createCourseReducer,
+} from '../Courses/components/data/';
+import { getDate, getId, getTime } from '../../helpers/';
+import {
 	mockedAuthorsList,
 	mockedCoursesList,
 } from '../Courses/components/data/data';
 import { useEffect, useReducer, useState } from 'react';
 
 import { Button } from '../../common/Button/Button';
-import { Courses } from '../Courses/Courses';
 import { Input } from '../../common/Input/Input';
-import { createAuthorReducer } from '../Courses/components/data/createAuthorReducer';
-import { createCourseReducer } from '../Courses/components/data/createCourseReducer';
-import { getDate } from '../../helpers/getDate';
-import { getId } from '../../helpers/getId';
-import { getTime } from '../../helpers/getTime';
 import { useForm } from '../../hooks/useForm';
 
 const initialState = mockedCoursesList;
 const initialAuthors = mockedAuthorsList;
-// const init = () => {
-// 	return JSON.parse(localStorage.getItem('courses')) || initialState;
-// };
-// const initAuthors = () => {
-// 	return JSON.parse(localStorage.getItem('authors')) || initialAuthors;
-// };
 
 export const CreateCourse = ({ init, initAuthors, clickAdding }) => {
 	const [courses, dispatch] = useReducer(
@@ -37,31 +30,10 @@ export const CreateCourse = ({ init, initAuthors, clickAdding }) => {
 		initAuthors
 	);
 
-	//Para tema del localstorage
-	// useEffect(() => {
-	// 	if (courses.length > 0) {
-	// 		localStorage.setItem('courses', JSON.stringify(courses));
-	// 	} else {
-	// 		localStorage.setItem('courses', JSON.stringify(initialState));
-	// 	}
-	// }, [courses]);
-
 	const onCourseUpdate = (course) => {
 		const newCourses = [...courses, course];
 		localStorage.setItem('courses', JSON.stringify(newCourses));
-
-		// else {
-		// 	localStorage.setItem('courses', JSON.stringify(initialState));
-		// }
 	};
-
-	// useEffect(() => {
-	// 	if (allAuthors.length > 0) {
-	// 		localStorage.setItem('authors', JSON.stringify(allAuthors));
-	// 	} else {
-	// 		localStorage.setItem('authors', JSON.stringify(initialAuthors));
-	// 	}
-	// }, [allAuthors]);
 
 	const onAuthorUpdate = () => {
 		if (allAuthors.length > 0) {
@@ -70,9 +42,6 @@ export const CreateCourse = ({ init, initAuthors, clickAdding }) => {
 			localStorage.setItem('authors', JSON.stringify(initialAuthors));
 		}
 	};
-
-	console.log(courses);
-	console.log(allAuthors);
 
 	const {
 		name,
@@ -106,19 +75,17 @@ export const CreateCourse = ({ init, initAuthors, clickAdding }) => {
 			return;
 		}
 		let id = getId();
-		// setAuthors([...authors, { id: id, name: name }]);
 		setAuthors([...authors, { id: id, name: name }]);
-		// setAuthorsCourse([...authors, id]);
+
 		const newAuthor = {
 			id,
 			name,
 		};
-		console.log(newAuthor);
 		handleNewAuthor(newAuthor);
 		onResetForm2();
 	};
 
-	// adding the author
+	// adding the author to all authors
 	const handleNewAuthor = (newAuthor) => {
 		const action = {
 			type: '[AUTHOR] add author',
@@ -129,39 +96,25 @@ export const CreateCourse = ({ init, initAuthors, clickAdding }) => {
 
 	// add author
 	const addAuthor = (id, name) => {
-		console.log('click to the author');
-		console.log(id, authorsCourse, authors);
-		// const authorExists = authorsCourse.find((person) => person.name === name);
 		const authorExists = authorsCourse.find((personId) => id === personId);
 		if (authorExists) {
 			alert(`The author ${name} is already on the list`);
 			return;
 		}
-		// setAuthors([...authors, { id: id, name: name }]);
+
 		setAuthors(authors.filter((author) => author.id !== id));
 		setAuthorsCourse([...authorsCourse, id]);
 	};
 	//
-	console.log(authors);
 
 	// Deleting author
-	const deletAuthor = (authorId) => {
-		console.log('delet', authorId);
-		console.log(authors);
-		// const restAuthors = authors.filter((e) => e.id !== authorId);
-		// const restAuthorsCourse = authorsCourse.filter((e) => e.id !== authorId);
-		// console.log(restAuthors);
+	const deleteAuthor = (authorId) => {
 		const newAuthors = [...authors];
 		const author = allAuthors.find((person) => person.id === authorId);
 		newAuthors.push(author);
 		setAuthors(newAuthors);
 		setAuthorsCourse(authorsCourse.filter((personId) => personId !== authorId));
-		// setAuthorsCourse(restAuthorsCourse);
 	};
-
-	// const handleDeletAuthor = (id) => {
-
-	// }
 
 	// adding the course
 	const handleNewCourse = (course) => {
@@ -204,7 +157,6 @@ export const CreateCourse = ({ init, initAuthors, clickAdding }) => {
 		setAuthors([]);
 		setAuthorsCourse([]);
 		onAuthorUpdate();
-		// onNewCourse && onNewCourse(newCourse);
 		clickAdding();
 	};
 
@@ -218,7 +170,7 @@ export const CreateCourse = ({ init, initAuthors, clickAdding }) => {
 							<Input
 								onSubmit={onFormSubmit}
 								placeholder={'Enter title...'}
-								inputclas={'title'}
+								inputClass={'title'}
 								name={'title'}
 								value={title}
 								onChange={onInputChange}
@@ -241,8 +193,9 @@ export const CreateCourse = ({ init, initAuthors, clickAdding }) => {
 							<h2>Add author</h2>
 							<h3>Author name</h3>
 							<Input
+								onSubmit={onFormSubmit}
 								placeholder={'Enter author name...'}
-								inputclas={'author'}
+								inputClass={'author'}
 								name={'name'}
 								value={name}
 								onChange={onInputChange2}
@@ -267,8 +220,9 @@ export const CreateCourse = ({ init, initAuthors, clickAdding }) => {
 							<h2>Duration</h2>
 							<h3>Duration</h3>
 							<Input
+								onSubmit={onFormSubmit}
 								placeholder={'Enter duration in minutes...'}
-								inputclas={'author'}
+								inputClass={'author'}
 								name={'duration'}
 								value={duration}
 								onChange={onInputChange}
@@ -293,19 +247,16 @@ export const CreateCourse = ({ init, initAuthors, clickAdding }) => {
 												}
 											</h3>
 											<Button
-												buttonText={'Delet author'}
-												onClick={() => deletAuthor(authorId)}
+												buttonText={'Delete author'}
+												onClick={() => deleteAuthor(authorId)}
 											/>
 										</div>
 									))}
-									{/* <h3>{authors?.map((e) => e.name)}</h3>
-									<Button buttonText={'Delete author'} /> */}
 								</div>
 							)}
 						</div>
 					</div>
 				</div>
-				{/* <Courses allCourses={courses} /> */}
 			</div>
 		</>
 	);

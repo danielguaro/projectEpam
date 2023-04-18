@@ -1,5 +1,7 @@
-.logoPic{
-  display: flex;
-  width: 120px;
-  height: 120px;
+.logoPic {
+	margin-top: 12px;
+	margin-left: 12px;
+	display: flex;
+	width: 100px;
+	height: 100px;
 }

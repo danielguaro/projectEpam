@@ -1,12 +1,12 @@
 import './logo.css';
 
-import dog_logo from '../../../assets/dog_logo.png';
+import book_logo from '../../../assets/bookLogo.png';
 
 export const Logo = () => {
 	return (
 		<>
 			<picture className='logoPic'>
-				<img src={dog_logo} alt='Dog Logo' />
+				<img src={book_logo} alt='Book_logo' />
 			</picture>
 		</>
 	);

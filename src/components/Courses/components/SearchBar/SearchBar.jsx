@@ -1,13 +1,11 @@
 import './searchbar.css';
-import { mockedCoursesList } from '../data/data';
+
 import { Button } from '../../../../common/Button/Button';
 import { Input } from '../../../../common/Input/Input';
 import { useForm } from '../../../../hooks/useForm';
-import { CourseCard } from '../CourseCard/CourseCard';
 import { useState } from 'react';
 
 export const SearchBar = ({ searchedCourses, allCourses }) => {
-	console.log(allCourses);
 	const { search, onInputChange } = useForm({
 		search: '',
 	});
@@ -32,7 +30,6 @@ export const SearchBar = ({ searchedCourses, allCourses }) => {
 
 	const onSearchClick = () => {
 		const foundCourses = getCourseByName(search);
-		// console.log(foundCourses);
 		setCourses(foundCourses);
 		searchedCourses(foundCourses);
 	};
@@ -40,18 +37,6 @@ export const SearchBar = ({ searchedCourses, allCourses }) => {
 	return (
 		<>
 			<div className='searchBar'>
-				{/* <form onSubmit={onSearchSubmit}>
-				<label>
-					<input
-						type='text'
-						placeholder='search...'
-						name='search'
-						autoComplete='off'
-						value={search}
-						onChange={onInputChange}
-					/>
-				</label>
-			</form> */}
 				<Input
 					onSubmit={onSearchSubmit}
 					name={'search'}
@@ -60,10 +45,7 @@ export const SearchBar = ({ searchedCourses, allCourses }) => {
 					onChange={onInputChange}
 				/>
 				<Button buttonText={'Search'} onClick={onSearchClick} />
-				{/*  */}
 			</div>
-			{/* {courses.length > 0 &&
-				courses.map((course) => <CourseCard key={course.id} {...course} />)} */}
 		</>
 	);
 };

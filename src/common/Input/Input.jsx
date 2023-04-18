@@ -6,7 +6,7 @@ export const Input = ({
 	value,
 	onChange,
 	name,
-	inputclas,
+	inputClass,
 	type = 'text',
 }) => {
 	return (
@@ -14,7 +14,7 @@ export const Input = ({
 			<form onSubmit={onSubmit}>
 				<label>
 					<input
-						className={inputclas}
+						className={inputClass}
 						type={type}
 						name={name}
 						placeholder={placeholder}
