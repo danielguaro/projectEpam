@@ -26,7 +26,6 @@ const initialAuthors = mockedAuthorsList;
 // };
 
 export const CreateCourse = ({ init, initAuthors, clickAdding }) => {
-
 	const [courses, dispatch] = useReducer(
 		createCourseReducer,
 		initialState,
@@ -50,11 +49,11 @@ export const CreateCourse = ({ init, initAuthors, clickAdding }) => {
 	const onCourseUpdate = (course) => {
 		const newCourses = [...courses, course];
 		localStorage.setItem('courses', JSON.stringify(newCourses));
-		
+
 		// else {
 		// 	localStorage.setItem('courses', JSON.stringify(initialState));
 		// }
-	}
+	};
 
 	// useEffect(() => {
 	// 	if (allAuthors.length > 0) {
@@ -70,8 +69,8 @@ export const CreateCourse = ({ init, initAuthors, clickAdding }) => {
 		} else {
 			localStorage.setItem('authors', JSON.stringify(initialAuthors));
 		}
-	}
-	
+	};
+
 	console.log(courses);
 	console.log(allAuthors);
 
@@ -92,7 +91,7 @@ export const CreateCourse = ({ init, initAuthors, clickAdding }) => {
 	const [authorsCourse, setAuthorsCourse] = useState([]);
 
 	useEffect(() => {
-		setAuthors([...allAuthors])
+		setAuthors([...allAuthors]);
 	}, []);
 
 	const onFormSubmit = (e) => {
@@ -131,7 +130,7 @@ export const CreateCourse = ({ init, initAuthors, clickAdding }) => {
 	// add author
 	const addAuthor = (id, name) => {
 		console.log('click to the author');
-		console.log(id,authorsCourse, authors);
+		console.log(id, authorsCourse, authors);
 		// const authorExists = authorsCourse.find((person) => person.name === name);
 		const authorExists = authorsCourse.find((personId) => id === personId);
 		if (authorExists) {
@@ -139,7 +138,7 @@ export const CreateCourse = ({ init, initAuthors, clickAdding }) => {
 			return;
 		}
 		// setAuthors([...authors, { id: id, name: name }]);
-		setAuthors(authors.filter((author)=> author.id !== id));
+		setAuthors(authors.filter((author) => author.id !== id));
 		setAuthorsCourse([...authorsCourse, id]);
 	};
 	//
@@ -156,7 +155,7 @@ export const CreateCourse = ({ init, initAuthors, clickAdding }) => {
 		const author = allAuthors.find((person) => person.id === authorId);
 		newAuthors.push(author);
 		setAuthors(newAuthors);
-		setAuthorsCourse(authorsCourse.filter((personId)=>personId !== authorId));
+		setAuthorsCourse(authorsCourse.filter((personId) => personId !== authorId));
 		// setAuthorsCourse(restAuthorsCourse);
 	};
 
@@ -204,7 +203,7 @@ export const CreateCourse = ({ init, initAuthors, clickAdding }) => {
 		onResetForm2();
 		setAuthors([]);
 		setAuthorsCourse([]);
-		onAuthorUpdate()
+		onAuthorUpdate();
 		// onNewCourse && onNewCourse(newCourse);
 		clickAdding();
 	};
@@ -287,7 +286,12 @@ export const CreateCourse = ({ init, initAuthors, clickAdding }) => {
 								<div className='authors-choice'>
 									{authorsCourse?.map((authorId) => (
 										<div key={authorId} className='authorChoice-button'>
-											<h3>{allAuthors.find((person)=> person.id === authorId).name}</h3>
+											<h3>
+												{
+													allAuthors.find((person) => person.id === authorId)
+														.name
+												}
+											</h3>
 											<Button
 												buttonText={'Delet author'}
 												onClick={() => deletAuthor(authorId)}

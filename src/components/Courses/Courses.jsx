@@ -33,7 +33,7 @@ export const Courses = (
 
 	const clickAdding = () => {
 		console.log('click', state);
-		setState((state)=>!state);
+		setState((state) => !state);
 	};
 
 	return (
