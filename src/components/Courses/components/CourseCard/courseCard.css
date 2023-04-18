@@ -1,0 +1,30 @@
+.courseCard-box{
+  width: 90%;
+  border: 1px solid #98D8AA;
+  margin:0 auto 20px auto;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.courseCard-title-description{
+  width: 60%;
+}
+
+.courseCard-title-description h1 {
+  margin-bottom: 10px;
+}
+
+.courseCard-restInfo{
+  width: 30%;
+}
+
+.courseCard-restInfo--authors {
+  white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.courseCard-restInfo h3 {
+  margin-bottom: 10px;
+}

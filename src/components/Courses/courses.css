@@ -1,0 +1,6 @@
+.coursesSearch-button{
+  display: flex;
+  width: 90%;
+  margin: 20px auto ;
+  justify-content: space-between;
+}
