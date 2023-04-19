@@ -1,0 +1,38 @@
+.registrationContainer {
+	margin-top: 12px;
+	height: 82vh;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid #408e91;
+}
+
+.registrationElements {
+	margin-top: 12px;
+	display: flex;
+	flex-direction: column;
+	width: 400px;
+	justify-content: center;
+	align-items: center;
+}
+
+.registrationElements Input {
+	width: 100%;
+	margin: 6px auto;
+	/* padding: 12px; */
+	justify-self: center;
+	align-self: center;
+}
+
+Button {
+	margin-top: 20px;
+	margin-bottom: 12px;
+}
+a {
+	text-decoration: none;
+	font-weight: bold;
+	color: #408e91;
+	font-size: 18px;
+}
