@@ -1,9 +1,11 @@
 import './courseCard.css';
 
 import { Button } from '../../../../common/Button/Button';
+import { Link } from 'react-router-dom';
 import { getTime } from '../../../../helpers/';
 
 export const CourseCard = ({
+	id,
 	title,
 	description,
 	creationDate,
@@ -27,7 +29,9 @@ export const CourseCard = ({
 				<h3 className='courseCard-restInfo--authors'>Authors: {auth}</h3>
 				<h3>Duration: {time}</h3>
 				<h3>Created: {creationDate}</h3>
-				<Button buttonText={'Show courses'} />
+				<Link to={`/courses/${id}`}>
+					<Button buttonText={'Show courses'} />
+				</Link>
 			</div>
 		</article>
 	);

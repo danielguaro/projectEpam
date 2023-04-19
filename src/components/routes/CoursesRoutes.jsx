@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 
+import { CourseInfo } from '../CourseInfo/CourseInfo';
 import { Courses } from '../Courses/Courses';
 import { CreateCourse } from '../CreateCourse/CreateCourse';
 import { Header } from '../Header/Header';
@@ -13,6 +14,7 @@ export const CoursesRoutes = () => {
 				<Route path='courses' element={<Courses />} />
 				<Route path='courses/add' element={<CreateCourse />} />
 				<Route path='courses/search' element={<SearchBar />} />
+				<Route path='courses/:courseId' element={<CourseInfo />} />
 
 				{/* Por si ingresa a una página que no quiero que ingrese */}
 				{/* <Route path='/*' element={<Courses />} /> */}

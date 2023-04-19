@@ -1,20 +1,23 @@
 import './courses.css';
 
 import { mockedAuthorsList, mockedCoursesList } from './components/data/data';
+import { useContext, useState } from 'react';
 
 import { Button } from '../../common/Button/Button';
 import { CourseCard } from './components/CourseCard/CourseCard';
 import { CreateCourse } from '../CreateCourse/CreateCourse';
 import { SearchBar } from './components/SearchBar/SearchBar';
-import { useState } from 'react';
+import { UserContext } from '../../context/UserContext';
 
-const init = () => {
-	return JSON.parse(localStorage.getItem('courses')) || mockedCoursesList;
-};
-const initAuthors = () => {
-	return JSON.parse(localStorage.getItem('authors')) || mockedAuthorsList;
-};
+// const init = () => {
+// 	return JSON.parse(localStorage.getItem('courses')) || mockedCoursesList;
+// };
+// const initAuthors = () => {
+// 	return JSON.parse(localStorage.getItem('authors')) || mockedAuthorsList;
+// };
 export const Courses = ({}) => {
+	const { init, initAuthors } = useContext(UserContext);
+
 	let allCourses = init();
 	let allAuthors = initAuthors();
 
