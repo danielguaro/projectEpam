@@ -9,17 +9,19 @@ import {
 	mockedAuthorsList,
 	mockedCoursesList,
 } from '../Courses/components/data/data';
-import { useEffect, useReducer, useState } from 'react';
+import { useContext, useEffect, useReducer, useState } from 'react';
 
 import { Button } from '../../common/Button/Button';
 import { Input } from '../../common/Input/Input';
+import { UserContext } from '../../context/UserContext';
 import { useForm } from '../../hooks/useForm';
 import { useNavigate } from 'react-router-dom';
 
 const initialState = mockedCoursesList;
 const initialAuthors = mockedAuthorsList;
 
-export const CreateCourse = ({ init, initAuthors }) => {
+export const CreateCourse = () => {
+	const { init, initAuthors } = useContext(UserContext);
 	const [courses, dispatch] = useReducer(
 		createCourseReducer,
 		initialState,

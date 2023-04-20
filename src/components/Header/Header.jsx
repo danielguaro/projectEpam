@@ -12,7 +12,7 @@ export const Header = () => {
 	// const { user } = useContext(UserContext);
 	// console.log('user', user.name);
 	const name = localStorage.getItem('name');
-	console.log(name);
+	// console.log(name);
 
 	const onLogout = () => {
 		localStorage.removeItem('token');

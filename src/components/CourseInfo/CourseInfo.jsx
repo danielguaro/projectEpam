@@ -4,20 +4,14 @@ import { Link, Navigate, useParams } from 'react-router-dom';
 import { getCourseById, getTheAuthors, getTime } from '../../helpers';
 
 export const CourseInfo = () => {
-	// const { initAuthors } = useContext(UserContext);
-	// let allAuthors = initAuthors();
-	// console.log(allAuthors);
-	// Importando de react router
 	const { courseId } = useParams();
-	console.log(courseId);
 	const course = getCourseById(courseId);
-	console.log(course);
+	let authors = getTheAuthors(course.authors);
+	let time = getTime(course.duration);
+
 	if (!course) {
 		return <Navigate to='/courses' />;
 	}
-	let authors = getTheAuthors(course.authors);
-	// console.log('authors', authors);
-	let time = getTime(course.duration);
 	return (
 		<>
 			<div className='courseInfoContainer'>

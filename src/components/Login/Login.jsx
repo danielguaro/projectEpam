@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import { Button } from '../../common/Button/Button';
 import { Input } from '../../common/Input/Input';
@@ -7,10 +7,10 @@ import { UserContext } from '../../context/UserContext';
 import { useForm } from '../../hooks/useForm';
 
 export const Login = () => {
-	// importando cosas de mi userCOntext
+	// importing stuff from my userCOntext
 	const { setUser } = useContext(UserContext);
 	const navigate = useNavigate();
-	// console.log('hello', user);
+
 	const { email, password, onInputChange, onResetForm } = useForm({
 		email: '',
 		password: '',
@@ -31,27 +31,28 @@ export const Login = () => {
 		});
 		const result = await response.json();
 
-		// if (result.successful === false) {
-		// 	alert(result.errors[0]);
-		// 	return;
-		// }
-		console.log(result);
 		if (result.successful === false) {
 			alert(result.result);
 			return;
 		}
-		console.log(result.result);
-		console.log(result.user.name);
+		// console.log(result.result);
+		// console.log(result.user.name);
 		setUser(result.user);
 		// console.log(result.successful);
 		// console.log(result.errors[0]);
 		// console.log(result);
-		// onLogin();
 		localStorage.setItem('token', result.result);
 		localStorage.setItem('name', result.user.name);
 		onCourses();
 		return result;
 	};
+
+	useEffect(() => {
+		const token = localStorage.getItem('token');
+		if (token) {
+			navigate('/courses');
+		}
+	}, [navigate]);
 
 	const onCourses = () => {
 		navigate('/courses', {
@@ -59,9 +60,8 @@ export const Login = () => {
 		});
 	};
 	const sendLogin = () => {
-		console.log(typeof email, password);
 		postData(email, password);
-		// onResetForm();
+		onResetForm();
 	};
 
 	return (

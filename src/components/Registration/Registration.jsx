@@ -67,7 +67,7 @@ export const Registration = () => {
 		if (!email.includes('@')) {
 			return false;
 		}
-		if (email.indexOf('@') < 3) {
+		if (email.indexOf('@') < 2) {
 			return false;
 		}
 		// let toValid = email.split('@');

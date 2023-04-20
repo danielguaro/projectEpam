@@ -16,9 +16,9 @@ export const CoursesRoutes = () => {
 				<Route path='courses/search' element={<SearchBar />} />
 				<Route path='courses/:courseId' element={<CourseInfo />} />
 
-				{/* Por si ingresa a una página que no quiero que ingrese */}
+				{/* if it goes to a pages that i don´t want it to go */}
 				{/* <Route path='/*' element={<Courses />} /> */}
-				{/* Otro método */}
+				{/* another way */}
 				<Route path='/*' element={<Navigate to='/courses' />} />
 				<Route path='/' element={<Navigate to='/courses' />} />
 			</Routes>
