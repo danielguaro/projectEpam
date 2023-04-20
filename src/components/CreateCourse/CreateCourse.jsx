@@ -14,11 +14,12 @@ import { useEffect, useReducer, useState } from 'react';
 import { Button } from '../../common/Button/Button';
 import { Input } from '../../common/Input/Input';
 import { useForm } from '../../hooks/useForm';
+import { useNavigate } from 'react-router-dom';
 
 const initialState = mockedCoursesList;
 const initialAuthors = mockedAuthorsList;
 
-export const CreateCourse = ({ init, initAuthors, clickAdding }) => {
+export const CreateCourse = ({ init, initAuthors }) => {
 	const [courses, dispatch] = useReducer(
 		createCourseReducer,
 		initialState,
@@ -41,6 +42,11 @@ export const CreateCourse = ({ init, initAuthors, clickAdding }) => {
 		} else {
 			localStorage.setItem('authors', JSON.stringify(initialAuthors));
 		}
+	};
+
+	const navigate = useNavigate();
+	const goCourses = () => {
+		navigate('/courses');
 	};
 
 	const {
@@ -157,7 +163,7 @@ export const CreateCourse = ({ init, initAuthors, clickAdding }) => {
 		setAuthors([]);
 		setAuthorsCourse([]);
 		onAuthorUpdate();
-		clickAdding();
+		goCourses();
 	};
 
 	return (

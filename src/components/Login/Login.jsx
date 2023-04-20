@@ -41,13 +41,14 @@ export const Login = () => {
 			return;
 		}
 		console.log(result.result);
-		console.log(result.user);
+		console.log(result.user.name);
 		setUser(result.user);
 		// console.log(result.successful);
 		// console.log(result.errors[0]);
 		// console.log(result);
 		// onLogin();
 		localStorage.setItem('token', result.result);
+		localStorage.setItem('name', result.user.name);
 		onCourses();
 		return result;
 	};

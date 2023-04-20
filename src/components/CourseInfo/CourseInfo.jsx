@@ -16,7 +16,7 @@ export const CourseInfo = () => {
 		return <Navigate to='/courses' />;
 	}
 	let authors = getTheAuthors(course.authors);
-	console.log('authors', authors);
+	// console.log('authors', authors);
 	let time = getTime(course.duration);
 	return (
 		<>

@@ -1,10 +1,10 @@
 import './registration.css';
 
 import { Link, useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
 
 import { Button } from '../../common/Button/Button';
 import { Input } from '../../common/Input/Input';
-import React from 'react';
 import { useForm } from '../../hooks/useForm';
 
 // const VALID_EMAIL_ENDINGS = [
@@ -15,12 +15,21 @@ import { useForm } from '../../hooks/useForm';
 // ];
 
 export const Registration = () => {
+	// If there is a token in the localStorage, then App navigates to the /courses by default.
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		const token = localStorage.getItem('token');
+		if (token) {
+			navigate('/courses');
+		}
+	}, [navigate]);
+
 	const { name, password, email, onInputChange, onResetForm } = useForm({
 		name: '',
 		password: '',
 		email: '',
 	});
-	const navigate = useNavigate();
 
 	// const getData = async () => {
 	// 	const response = await fetch('http://localhost:4000/users/me');
