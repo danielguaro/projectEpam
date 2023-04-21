@@ -47,12 +47,12 @@ export const Login = () => {
 		return result;
 	};
 
-	useEffect(() => {
-		const token = localStorage.getItem('token');
-		if (token) {
-			navigate('/courses');
-		}
-	}, [navigate]);
+	// useEffect(() => {
+	// 	const token = localStorage.getItem('token');
+	// 	if (token) {
+	// 		navigate('/courses');
+	// 	}
+	// }, [navigate]);
 
 	const onCourses = () => {
 		navigate('/courses', {

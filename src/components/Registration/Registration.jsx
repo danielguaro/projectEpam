@@ -18,12 +18,12 @@ export const Registration = () => {
 	// If there is a token in the localStorage, then App navigates to the /courses by default.
 	const navigate = useNavigate();
 
-	useEffect(() => {
-		const token = localStorage.getItem('token');
-		if (token) {
-			navigate('/courses');
-		}
-	}, [navigate]);
+	// useEffect(() => {
+	// 	const token = localStorage.getItem('token');
+	// 	if (token) {
+	// 		navigate('/courses');
+	// 	}
+	// }, [navigate]);
 
 	const { name, password, email, onInputChange, onResetForm } = useForm({
 		name: '',

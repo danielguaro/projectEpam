@@ -16,12 +16,12 @@ export const Courses = ({}) => {
 	let allCourses = init();
 	let allAuthors = initAuthors();
 
-	useEffect(() => {
-		const token = localStorage.getItem('token');
-		if (!token) {
-			navigate('/login');
-		}
-	}, [navigate]);
+	// useEffect(() => {
+	// 	const token = localStorage.getItem('token');
+	// 	if (!token) {
+	// 		navigate('/login');
+	// 	}
+	// }, [navigate]);
 
 	const [courses, setCourses] = useState([]);
 	const [state, setState] = useState(false);
