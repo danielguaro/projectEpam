@@ -1,15 +1,27 @@
 import { Link, useNavigate } from 'react-router-dom';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Button } from '../../common/Button/Button';
 import { Input } from '../../common/Input/Input';
 import { UserContext } from '../../context/UserContext';
+import { startLoginWithEmailPassword } from '../../store/user';
 import { useForm } from '../../hooks/useForm';
+import { showAllCourses } from '../../store/courses';
+import { showAllAuthors } from '../../store/authors';
 
 export const Login = () => {
 	// importing stuff from my userCOntext
 	const { setUser } = useContext(UserContext);
 	const navigate = useNavigate();
+
+	// // para que una vez autenticado no pueda hacer nuevamente login a traves del useSelector
+	const { status, message, isAuth, token } = useSelector((state) => state.user);
+	// console.log(status, message, isAuth);
+	// const isAuthenticating = useMemo(() => status === 'checking', [status]);
+
+	// Para implementación del REDUX, useDispatch()
+	const dispatch = useDispatch();
 
 	const { email, password, onInputChange, onResetForm } = useForm({
 		email: '',
@@ -61,8 +73,17 @@ export const Login = () => {
 	};
 	const sendLogin = () => {
 		postData(email, password);
-		onResetForm();
+		// onResetForm();
+		// Testings
+		dispatch(startLoginWithEmailPassword(email, password));
+		dispatch(showAllCourses());
+		dispatch(showAllAuthors());
+		onCourses();
 	};
+
+	// const go = useMemo(() => {
+	// 	if (isAuth) onCourses();
+	// }, [isAuth]);
 
 	return (
 		<>

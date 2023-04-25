@@ -16,11 +16,18 @@ import { Input } from '../../common/Input/Input';
 import { UserContext } from '../../context/UserContext';
 import { useForm } from '../../hooks/useForm';
 import { useNavigate } from 'react-router-dom';
+// import { useSelector } from 'react-redux';
 
 const initialState = mockedCoursesList;
 const initialAuthors = mockedAuthorsList;
 
 export const CreateCourse = () => {
+	// // Adding changes
+	// const theCourses = useSelector((state) => state.courses.coursesState);
+	// console.log(theCourses.courses);
+	// const theAuthors = useSelector((state) => state.authors.authorsState);
+	// console.log(theAuthors.authors);
+
 	const { init, initAuthors } = useContext(UserContext);
 	const [courses, dispatch] = useReducer(
 		createCourseReducer,
