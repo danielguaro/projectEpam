@@ -33,8 +33,8 @@ export const userSlice = createSlice({
 			// state.token = '';
 			// localStorage.removeItem('name');
 			// localStorage.removeItem('email');
-			// state.token = '';
 			localStorage.removeItem('token');
+			state.token = '';
 			state.message = 'email or password invalid';
 		},
 		// Para evitar doblePosteo, mientras se corrobora si el usuairo esta ingresando

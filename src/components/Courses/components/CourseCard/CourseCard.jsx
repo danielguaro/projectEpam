@@ -33,12 +33,12 @@ export const CourseCard = ({
 		}
 	}, [theCourses]);
 
-	console.log(deletedCourseId);
+	// console.log(deletedCourseId);
 	const handleDelete = (courseId) => {
 		console.log('click');
 		dispatch(deleteCourseById(courseId));
-		dispatch(showAllCourses());
 		setDeletedCourseId(courseId);
+		// dispatch(showAllCourses());
 	};
 
 	return (

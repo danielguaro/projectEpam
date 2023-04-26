@@ -1,16 +1,16 @@
 import './courses.css';
 
 import { useContext, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Button } from '../../common/Button/Button';
 import { CourseCard } from './components/CourseCard/CourseCard';
 import { CreateCourse } from '../CreateCourse/CreateCourse';
 import { SearchBar } from './components/SearchBar/SearchBar';
 import { UserContext } from '../../context/UserContext';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { showAllCourses } from '../../store/courses';
 import { showAllAuthors } from '../../store/authors';
+import { showAllCourses } from '../../store/courses';
+import { useNavigate } from 'react-router-dom';
 
 export const Courses = ({}) => {
 	// useDispatch()
@@ -31,6 +31,9 @@ export const Courses = ({}) => {
 	// 		dispatch(showAllCourses());
 	// 	}
 	// }, []);
+	if (allyCourses.length === 0) {
+		dispatch(showAllCourses());
+	}
 
 	const { init, initAuthors } = useContext(UserContext);
 	const navigate = useNavigate();
@@ -73,7 +76,6 @@ export const Courses = ({}) => {
 	// }, [navigate]);
 
 	const [courses, setCourses] = useState([]);
-	const [state, setState] = useState(false);
 
 	const handleChildDataChange = (newData) => {
 		setCourses(newData);
@@ -85,13 +87,7 @@ export const Courses = ({}) => {
 
 	return (
 		<>
-			{state ? (
-				<CreateCourse
-					// init={init}
-					// initAuthors={initAuthors}
-					clickAdding={clickAdding}
-				/>
-			) : courses.length > 0 ? (
+			{courses.length > 0 ? (
 				<>
 					<div className='coursesSearch-button'>
 						<SearchBar
@@ -115,14 +111,9 @@ export const Courses = ({}) => {
 						/>
 						<Button buttonText={'Add new course'} onClick={clickAdding} />
 					</div>
-					{allyCourses.length >= 0 &&
-						allyCourses.map((course) => (
-							<CourseCard
-								{...course}
-								key={course.id}
-								allAuthors={allyAuthors}
-							/>
-						))}
+					{allyCourses.map((course) => (
+						<CourseCard {...course} key={course.id} allAuthors={allyAuthors} />
+					))}
 				</>
 			)}
 		</>

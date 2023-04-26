@@ -13,16 +13,24 @@ export const coursesSlice = createSlice({
 		addNewEmptyCourse: (state, { payload }) => {
 			state.courses.push(payload);
 		},
-		setCourses: (state, { payload }) => {
-			console.log(payload);
-			state.courses = state.courses.concat(payload);
-		},
+		// setCourses: (state, { payload }) => {
+		// 	console.log(payload);
+		// 	state.courses = state.courses.concat(payload);
+		// },
 		updateCourse: (state, action) => {},
 		deleteCourseById: (state, { payload }) => {
 			state.courses = removeCourseById(state.courses, payload);
 		},
 		getAllCourses: (state, { payload }) => {
 			state.courses = payload;
+		},
+		addExampleOfCourse: (state, { payload }) => {
+			if (!state.courses) {
+				state.courses = getAllCourses();
+			}
+			if (state.courses) {
+				state.courses = [...state.courses, payload];
+			}
 		},
 	},
 });
@@ -34,4 +42,5 @@ export const {
 	updateCourse,
 	deleteCourseById,
 	getAllCourses,
+	addExampleOfCourse,
 } = coursesSlice.actions;

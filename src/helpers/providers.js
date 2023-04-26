@@ -103,20 +103,22 @@ export const createNewAuthor = async (authorName, token) => {
 
 	console.log(result);
 	console.log(result.result);
-	if (result.successful === false) {
-		alert(result.result);
-		console.log(result.result);
-		// const { result: errorMessage } = result;
-		// console.log(errorMessage);
-		return;
-	}
+	// if (result.successful === false) {
+	// 	alert(result.result);
+	// 	console.log(result.result);
+	// 	// const { result: errorMessage } = result;
+	// 	// console.log(errorMessage);
+	// 	return;
+	// }
 	const { name, id } = result.result;
+	console.log(name, id, 'soy del provider');
 	return {
 		name,
 		id,
 	};
 };
 
+// Create newCourse
 export const createNewCourse = async (
 	titleCourse,
 	descriptionCourse,

@@ -1,4 +1,4 @@
-import { getAuthors } from '../../helpers/providers';
+import { createNewAuthor, getAuthors } from '../../helpers/providers';
 import {
 	addNewEmptyAuthor,
 	updateAuthor,
@@ -17,6 +17,7 @@ export const showAllAuthors = () => {
 export const addNewAuthor = (authorName, token) => {
 	return async (dispatch) => {
 		const result = await createNewAuthor(authorName, token);
+		console.log(result);
 
 		dispatch(addNewEmptyAuthor(result));
 	};

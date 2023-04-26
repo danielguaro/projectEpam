@@ -8,6 +8,7 @@ export const Input = ({
 	name,
 	inputClass,
 	type = 'text',
+	onKeyPress,
 }) => {
 	return (
 		<>
@@ -21,6 +22,7 @@ export const Input = ({
 						autoComplete='off'
 						value={value}
 						onChange={onChange}
+						onKeyPress={onKeyPress}
 					/>
 				</label>
 			</form>

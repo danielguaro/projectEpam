@@ -8,11 +8,40 @@
 }
 
 .courseCard-title-description {
+	/* display: flex;
+	flex-direction: column; */
 	width: 60%;
+	min-height: 220px;
+	max-height: 450px;
+	overflow-y: auto;
+	/* overflow-x: scroll; */
+	text-overflow: ellipsis;
+	position: relative;
+}
+
+.courseCard-title-description::-webkit-scrollbar {
+	width: 8px;
+	background-color: transparent;
+	opacity: 0.5;
+}
+
+.courseCard-title-description::-webkit-scrollbar-thumb {
+	background-color: #ccc;
+	border-radius: 8px;
+}
+
+.courseCard-title-description p {
+	width: 100%;
+	height: 80%;
+	word-wrap: break-word;
+	text-overflow: ellipsis;
 }
 
 .courseCard-title-description h1 {
 	margin-bottom: 10px;
+	top: 0;
+	z-index: 1;
+	position: sticky;
 }
 
 .courseCard-restInfo {

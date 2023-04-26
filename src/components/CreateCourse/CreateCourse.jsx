@@ -1,5 +1,12 @@
 import './creaeteCourse.css';
 
+import { Link, useNavigate } from 'react-router-dom';
+import {
+	addExampleOfAuthor,
+	addNewAuthor,
+	getAllAuthors,
+	showAllAuthors,
+} from '../../store/authors';
 import {
 	createAuthorReducer,
 	createCourseReducer,
@@ -10,48 +17,59 @@ import {
 	mockedCoursesList,
 } from '../Courses/components/data/data';
 import { useContext, useEffect, useReducer, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Button } from '../../common/Button/Button';
 import { Input } from '../../common/Input/Input';
 import { UserContext } from '../../context/UserContext';
+import { addExampleOfCourse } from '../../store/courses';
 import { useForm } from '../../hooks/useForm';
-import { useNavigate } from 'react-router-dom';
-// import { useSelector } from 'react-redux';
 
-const initialState = mockedCoursesList;
-const initialAuthors = mockedAuthorsList;
+const initialState = [];
+const initialAuthors = [];
 
 export const CreateCourse = () => {
 	// // Adding changes
-	// const theCourses = useSelector((state) => state.courses.coursesState);
-	// console.log(theCourses.courses);
-	// const theAuthors = useSelector((state) => state.authors.authorsState);
-	// console.log(theAuthors.authors);
+	const theCourses = useSelector((state) => state.courses.coursesState.courses);
+	// console.log(theCourses);
+	const theAuthors = useSelector((state) => state.authors.authorsState.authors);
+	const theToken = useSelector((state) => state.user.userState.token);
+	console.log(theToken);
+	const dispatch = useDispatch();
+	console.log(theAuthors);
+	const coursesInit = () => theCourses;
+	const authorsInit = () => theAuthors;
+	console.log(coursesInit());
 
-	const { init, initAuthors } = useContext(UserContext);
-	const [courses, dispatch] = useReducer(
-		createCourseReducer,
-		initialState,
-		init
-	);
-	const [allAuthors, dispatch1] = useReducer(
-		createAuthorReducer,
-		initialAuthors,
-		initAuthors
-	);
+	// const { init, initAuthors } = useContext(UserContext);
+	// console.log(init);
+	// const [courses, dispatch] = useReducer(
+	// 	createCourseReducer,
+	// 	initialState,
+	// 	// init,
+	// 	coursesInit
+	// );
+	const [courses, setCourses] = useState(theCourses);
+	// const [allAuthors, dispatch1] = useReducer(
+	// 	createAuthorReducer,
+	// 	initialAuthors,
+	// 	// initAuthors,
+	// 	authorsInit
+	// );
+	const [allAuthors, setAllAuthors] = useState(theAuthors);
 
-	const onCourseUpdate = (course) => {
-		const newCourses = [...courses, course];
-		localStorage.setItem('courses', JSON.stringify(newCourses));
-	};
+	// const onCourseUpdate = (course) => {
+	// 	const newCourses = [...courses, course];
+	// 	localStorage.setItem('courses', JSON.stringify(newCourses));
+	// };
 
-	const onAuthorUpdate = () => {
-		if (allAuthors.length > 0) {
-			localStorage.setItem('authors', JSON.stringify(allAuthors));
-		} else {
-			localStorage.setItem('authors', JSON.stringify(initialAuthors));
-		}
-	};
+	// const onAuthorUpdate = () => {
+	// 	if (allAuthors.length > 0) {
+	// 		localStorage.setItem('authors', JSON.stringify(allAuthors));
+	// 	} else {
+	// 		localStorage.setItem('authors', JSON.stringify(initialAuthors));
+	// 	}
+	// };
 
 	const navigate = useNavigate();
 	const goCourses = () => {
@@ -84,11 +102,11 @@ export const CreateCourse = () => {
 
 	const createAuthor = () => {
 		if (name.length <= 1) return;
-		const authorExists = allAuthors.find((person) => person.name === name);
-		if (authorExists) {
-			alert(`The author ${name} is already on the list`);
-			return;
-		}
+		// const authorExists = allAuthors.find((person) => person.name === name);
+		// if (authorExists) {
+		// 	alert(`The author ${name} is already on the list`);
+		// 	return;
+		// }
 		let id = getId();
 		setAuthors([...authors, { id: id, name: name }]);
 
@@ -96,26 +114,36 @@ export const CreateCourse = () => {
 			id,
 			name,
 		};
-		handleNewAuthor(newAuthor);
+		dispatch(addExampleOfAuthor(newAuthor));
+		// handleNewAuthor(newAuthor);
+
+		// console.log(name);
+		// dispatch(addNewAuthor(name, theToken));
+		// const allNewAuthors = dispatch(showAllAuthors());
+		// console.log(allNewAuthors);
+		// setAllAuthors(allNewAuthors);
+		// console.log('authors', authors);
+
 		onResetForm2();
 	};
 
+	console.log('theAuthors--->', allAuthors);
 	// adding the author to all authors
-	const handleNewAuthor = (newAuthor) => {
-		const action = {
-			type: '[AUTHOR] add author',
-			payload: newAuthor,
-		};
-		dispatch1(action);
-	};
+	// const handleNewAuthor = (newAuthor) => {
+	// 	const action = {
+	// 		type: '[AUTHOR] add author',
+	// 		payload: newAuthor,
+	// 	};
+	// 	dispatch1(action);
+	// };
 
 	// add author
 	const addAuthor = (id, name) => {
-		const authorExists = authorsCourse.find((personId) => id === personId);
-		if (authorExists) {
-			alert(`The author ${name} is already on the list`);
-			return;
-		}
+		// const authorExists = authorsCourse.find((personId) => id === personId);
+		// if (authorExists) {
+		// 	alert(`The author ${name} is already on the list`);
+		// 	return;
+		// }
 
 		setAuthors(authors.filter((author) => author.id !== id));
 		setAuthorsCourse([...authorsCourse, id]);
@@ -125,20 +153,31 @@ export const CreateCourse = () => {
 	// Deleting author
 	const deleteAuthor = (authorId) => {
 		const newAuthors = [...authors];
-		const author = allAuthors.find((person) => person.id === authorId);
+		const author = theAuthors.find((person) => person.id === authorId);
 		newAuthors.push(author);
 		setAuthors(newAuthors);
 		setAuthorsCourse(authorsCourse.filter((personId) => personId !== authorId));
 	};
 
-	// adding the course
-	const handleNewCourse = (course) => {
-		const action = {
-			type: '[COURSE] add course',
-			payload: course,
-		};
-		dispatch(action);
-		onCourseUpdate(course);
+	// // adding the course
+	// const handleNewCourse = (course) => {
+	// 	// const action = {
+	// 	// 	type: '[COURSE] add course',
+	// 	// 	payload: course,
+	// 	// };
+	// 	// dispatch(action);
+	// 	// onCourseUpdate(course);
+	// };
+	// //
+
+	// To avoid numbers on the authors name
+	const onKeyPress = (event) => {
+		const keyCode = event.keyCode || event.which;
+		const keyValue = String.fromCharCode(keyCode);
+		const regex = /^[a-zA-Z\s]*$/;
+		if (!regex.test(keyValue)) {
+			event.preventDefault();
+		}
 	};
 	//
 
@@ -166,17 +205,21 @@ export const CreateCourse = () => {
 			authors: authorsCourse,
 		};
 
-		handleNewCourse(newCourse);
+		// handleNewCourse(newCourse);
+		dispatch(addExampleOfCourse(newCourse));
 		onResetForm();
 		onResetForm2();
 		setAuthors([]);
 		setAuthorsCourse([]);
-		onAuthorUpdate();
+		// onAuthorUpdate();
 		goCourses();
 	};
 
 	return (
 		<>
+			<p>
+				<Link to='/courses'> {'<- '}Back to courses</Link>
+			</p>
 			<div className='createCourseContainer'>
 				<div>
 					<div className='createCourse-title-button'>
@@ -214,6 +257,8 @@ export const CreateCourse = () => {
 								name={'name'}
 								value={name}
 								onChange={onInputChange2}
+								type={'text'}
+								onKeyPress={onKeyPress}
 							/>
 							<Button buttonText={'Create author'} onClick={createAuthor} />
 						</div>
@@ -257,7 +302,7 @@ export const CreateCourse = () => {
 										<div key={authorId} className='authorChoice-button'>
 											<h3>
 												{
-													allAuthors.find((person) => person.id === authorId)
+													theAuthors.find((person) => person.id === authorId)
 														.name
 												}
 											</h3>

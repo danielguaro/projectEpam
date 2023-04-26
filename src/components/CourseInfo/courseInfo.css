@@ -24,9 +24,34 @@
 	align-items: start;
 }
 .courseInfoContainer-description {
+	width: 100%;
+	min-height: 450px;
+	max-height: 650px;
+	overflow-y: auto;
+	/* overflow-x: scroll; */
+	text-overflow: ellipsis;
+	position: relative;
 	padding: 2%;
 	line-height: 1.6rem;
 }
+
+.courseInfoContainer-description p {
+	width: 100%;
+	height: 80%;
+	word-wrap: break-word;
+}
+
+.courseInfoContainer-description::-webkit-scrollbar {
+	width: 6px;
+	background-color: transparent;
+	opacity: 0.5;
+}
+
+.courseInfoContainer-description::-webkit-scrollbar-thumb {
+	background-color: #ccc;
+	border-radius: 8px;
+}
+
 aside {
 	padding: 2%;
 }
