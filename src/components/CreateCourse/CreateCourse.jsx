@@ -1,75 +1,25 @@
 import './creaeteCourse.css';
 
 import { Link, useNavigate } from 'react-router-dom';
-import {
-	addExampleOfAuthor,
-	addNewAuthor,
-	getAllAuthors,
-	showAllAuthors,
-} from '../../store/authors';
-import {
-	createAuthorReducer,
-	createCourseReducer,
-} from '../Courses/components/data/';
 import { getDate, getId, getTime } from '../../helpers/';
-import {
-	mockedAuthorsList,
-	mockedCoursesList,
-} from '../Courses/components/data/data';
-import { useContext, useEffect, useReducer, useState } from 'react';
+import { theAuthors, theCourses, theUser } from '../../helpers/selectors';
 import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 
 import { Button } from '../../common/Button/Button';
 import { Input } from '../../common/Input/Input';
-import { UserContext } from '../../context/UserContext';
+import { addExampleOfAuthor } from '../../store/authors';
 import { addExampleOfCourse } from '../../store/courses';
 import { useForm } from '../../hooks/useForm';
 
-const initialState = [];
-const initialAuthors = [];
-
 export const CreateCourse = () => {
-	// // Adding changes
-	const theCourses = useSelector((state) => state.courses.coursesState.courses);
-	// console.log(theCourses);
-	const theAuthors = useSelector((state) => state.authors.authorsState.authors);
-	const theToken = useSelector((state) => state.user.userState.token);
-	console.log(theToken);
+	const allInfoAuthors = useSelector(theAuthors);
+	const allyAuthors = allInfoAuthors.authors;
+
+	const [authors, setAuthors] = useState([]);
+	const [authorsCourse, setAuthorsCourse] = useState([]);
+
 	const dispatch = useDispatch();
-	console.log(theAuthors);
-	const coursesInit = () => theCourses;
-	const authorsInit = () => theAuthors;
-	console.log(coursesInit());
-
-	// const { init, initAuthors } = useContext(UserContext);
-	// console.log(init);
-	// const [courses, dispatch] = useReducer(
-	// 	createCourseReducer,
-	// 	initialState,
-	// 	// init,
-	// 	coursesInit
-	// );
-	const [courses, setCourses] = useState(theCourses);
-	// const [allAuthors, dispatch1] = useReducer(
-	// 	createAuthorReducer,
-	// 	initialAuthors,
-	// 	// initAuthors,
-	// 	authorsInit
-	// );
-	const [allAuthors, setAllAuthors] = useState(theAuthors);
-
-	// const onCourseUpdate = (course) => {
-	// 	const newCourses = [...courses, course];
-	// 	localStorage.setItem('courses', JSON.stringify(newCourses));
-	// };
-
-	// const onAuthorUpdate = () => {
-	// 	if (allAuthors.length > 0) {
-	// 		localStorage.setItem('authors', JSON.stringify(allAuthors));
-	// 	} else {
-	// 		localStorage.setItem('authors', JSON.stringify(initialAuthors));
-	// 	}
-	// };
 
 	const navigate = useNavigate();
 	const goCourses = () => {
@@ -89,11 +39,8 @@ export const CreateCourse = () => {
 		duration: '',
 	});
 
-	const [authors, setAuthors] = useState([]);
-	const [authorsCourse, setAuthorsCourse] = useState([]);
-
 	useEffect(() => {
-		setAuthors([...allAuthors]);
+		setAuthors([...allyAuthors]);
 	}, []);
 
 	const onFormSubmit = (e) => {
@@ -102,11 +49,6 @@ export const CreateCourse = () => {
 
 	const createAuthor = () => {
 		if (name.length <= 1) return;
-		// const authorExists = allAuthors.find((person) => person.name === name);
-		// if (authorExists) {
-		// 	alert(`The author ${name} is already on the list`);
-		// 	return;
-		// }
 		let id = getId();
 		setAuthors([...authors, { id: id, name: name }]);
 
@@ -115,36 +57,11 @@ export const CreateCourse = () => {
 			name,
 		};
 		dispatch(addExampleOfAuthor(newAuthor));
-		// handleNewAuthor(newAuthor);
-
-		// console.log(name);
-		// dispatch(addNewAuthor(name, theToken));
-		// const allNewAuthors = dispatch(showAllAuthors());
-		// console.log(allNewAuthors);
-		// setAllAuthors(allNewAuthors);
-		// console.log('authors', authors);
-
 		onResetForm2();
 	};
 
-	console.log('theAuthors--->', allAuthors);
-	// adding the author to all authors
-	// const handleNewAuthor = (newAuthor) => {
-	// 	const action = {
-	// 		type: '[AUTHOR] add author',
-	// 		payload: newAuthor,
-	// 	};
-	// 	dispatch1(action);
-	// };
-
 	// add author
-	const addAuthor = (id, name) => {
-		// const authorExists = authorsCourse.find((personId) => id === personId);
-		// if (authorExists) {
-		// 	alert(`The author ${name} is already on the list`);
-		// 	return;
-		// }
-
+	const addAuthor = (id) => {
 		setAuthors(authors.filter((author) => author.id !== id));
 		setAuthorsCourse([...authorsCourse, id]);
 	};
@@ -153,22 +70,11 @@ export const CreateCourse = () => {
 	// Deleting author
 	const deleteAuthor = (authorId) => {
 		const newAuthors = [...authors];
-		const author = theAuthors.find((person) => person.id === authorId);
+		const author = allyAuthors.find((person) => person.id === authorId);
 		newAuthors.push(author);
 		setAuthors(newAuthors);
 		setAuthorsCourse(authorsCourse.filter((personId) => personId !== authorId));
 	};
-
-	// // adding the course
-	// const handleNewCourse = (course) => {
-	// 	// const action = {
-	// 	// 	type: '[COURSE] add course',
-	// 	// 	payload: course,
-	// 	// };
-	// 	// dispatch(action);
-	// 	// onCourseUpdate(course);
-	// };
-	// //
 
 	// To avoid numbers on the authors name
 	const onKeyPress = (event) => {
@@ -180,10 +86,9 @@ export const CreateCourse = () => {
 		}
 	};
 	//
-
 	const createCourse = () => {
 		if (title.length <= 1) {
-			alert('please write a title');
+			alert('please write a title for the course');
 			return;
 		}
 		if (description.length <= 2) {
@@ -191,15 +96,23 @@ export const CreateCourse = () => {
 			return;
 		}
 		if (duration.length <= 1) {
-			alert('please write the time');
+			alert('Please choose a time longer than one minute');
 			return;
 		}
+		if (authorsCourse.length === 0) {
+			alert('please choose at least one author');
+			return;
+		}
+
+		const changeDescription = description.toLowerCase();
+		const newDescription =
+			changeDescription.charAt(0).toUpperCase() + changeDescription.slice(1);
 		let id = getId();
 		let creationDate = getDate();
 		const newCourse = {
 			id,
 			title,
-			description,
+			description: newDescription,
 			creationDate,
 			duration: duration * 1,
 			authors: authorsCourse,
@@ -211,7 +124,6 @@ export const CreateCourse = () => {
 		onResetForm2();
 		setAuthors([]);
 		setAuthorsCourse([]);
-		// onAuthorUpdate();
 		goCourses();
 	};
 
@@ -224,7 +136,7 @@ export const CreateCourse = () => {
 				<div>
 					<div className='createCourse-title-button'>
 						<div className='createCourse-title'>
-							<h3>title</h3>
+							<h3>Title</h3>
 							<Input
 								onSubmit={onFormSubmit}
 								placeholder={'Enter title...'}
@@ -302,7 +214,7 @@ export const CreateCourse = () => {
 										<div key={authorId} className='authorChoice-button'>
 											<h3>
 												{
-													theAuthors.find((person) => person.id === authorId)
+													allyAuthors.find((person) => person.id === authorId)
 														.name
 												}
 											</h3>

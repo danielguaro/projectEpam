@@ -1,11 +1,12 @@
-import { getCourses } from '../../helpers/providers';
 import {
 	addNewEmptyCourse,
-	setCourses,
-	updateCourse,
 	deleteCourseById,
 	getAllCourses,
+	setCourses,
+	updateCourse,
 } from './coursesSlice';
+
+import { getCourses } from '../../helpers/providers';
 
 export const showAllCourses = () => {
 	return async (dispatch) => {
@@ -18,6 +19,5 @@ export const showAllCourses = () => {
 
 // Remove by Id
 export const removeCourseById = (courses, id) => {
-	console.log(courses);
 	return courses.filter((course) => course.id !== id);
 };

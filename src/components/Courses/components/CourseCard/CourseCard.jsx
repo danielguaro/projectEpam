@@ -1,11 +1,13 @@
 import './courseCard.css';
 
-import { Button } from '../../../../common/Button/Button';
-import { Link } from 'react-router-dom';
-import { getTime } from '../../../../helpers/';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { deleteCourseById, showAllCourses } from '../../../../store/courses';
+
+import { Button } from '../../../../common/Button/Button';
+import { Link } from 'react-router-dom';
+import { deleteCourseById } from '../../../../store/courses';
+import { getTime } from '../../../../helpers/';
+import { theCourses } from '../../../../helpers/selectors';
 
 export const CourseCard = ({
 	id,
@@ -16,29 +18,27 @@ export const CourseCard = ({
 	authors,
 	allAuthors,
 }) => {
+	const [deletedCourseId, setDeletedCourseId] = useState(null);
+	const dispatch = useDispatch();
+	const allCourses = useSelector(theCourses).courses;
+
 	const authorsNames = allAuthors
 		.filter((author) => authors.includes(author.id))
 		.map((author) => author.name);
 
 	let auth = authorsNames.join(', ');
 	let time = getTime(duration);
-	const theCourses = useSelector((state) => state.courses.coursesState.courses);
-	console.log(theCourses);
 
-	const [deletedCourseId, setDeletedCourseId] = useState(null);
-	const dispatch = useDispatch();
 	useEffect(() => {
 		if (deletedCourseId !== null) {
 			setDeletedCourseId(null);
 		}
-	}, [theCourses]);
+	}, [allCourses]);
 
 	// console.log(deletedCourseId);
 	const handleDelete = (courseId) => {
-		console.log('click');
 		dispatch(deleteCourseById(courseId));
 		setDeletedCourseId(courseId);
-		// dispatch(showAllCourses());
 	};
 
 	return (

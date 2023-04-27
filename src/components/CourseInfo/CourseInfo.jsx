@@ -12,7 +12,6 @@ export const CourseInfo = () => {
 	}
 	let authors = getTheAuthors(course?.authors);
 	let time = getTime(course?.duration);
-	console.log(courseId);
 	return (
 		<>
 			<div className='courseInfoContainer'>

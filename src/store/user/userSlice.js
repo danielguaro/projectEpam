@@ -37,7 +37,7 @@ export const userSlice = createSlice({
 			state.token = '';
 			state.message = 'email or password invalid';
 		},
-		// Para evitar doblePosteo, mientras se corrobora si el usuairo esta ingresando
+		// To avoid doublePost, while is checking if the user in logged
 		checkingCredentials: (state) => {
 			state.status = 'checking';
 		},

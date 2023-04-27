@@ -7,36 +7,14 @@ import { Button } from '../../common/Button/Button';
 import { Input } from '../../common/Input/Input';
 import { useForm } from '../../hooks/useForm';
 
-// const VALID_EMAIL_ENDINGS = [
-// 	'gmail.com',
-// 	'outlook.com',
-// 	'mail.com',
-// 	'icloud.com',
-// ];
-
 export const Registration = () => {
-	// If there is a token in the localStorage, then App navigates to the /courses by default.
 	const navigate = useNavigate();
-
-	// useEffect(() => {
-	// 	const token = localStorage.getItem('token');
-	// 	if (token) {
-	// 		navigate('/courses');
-	// 	}
-	// }, [navigate]);
 
 	const { name, password, email, onInputChange, onResetForm } = useForm({
 		name: '',
 		password: '',
 		email: '',
 	});
-
-	// const getData = async () => {
-	// 	const response = await fetch('http://localhost:4000/users/me');
-	// 	const data = await response.json();
-	// 	console.log(data);
-	// };
-	// getData();
 	const onLogin = () => {
 		navigate('/login');
 	};
@@ -56,12 +34,20 @@ export const Registration = () => {
 			alert(result.errors[0]);
 			return;
 		}
-		// console.log(result.successful);
-		// console.log(result.errors[0]);
-		// console.log(result);
 		onLogin();
 		return result;
 	};
+
+	// To avoid numbers on the authors name
+	const onKeyPress = (event) => {
+		const keyCode = event.keyCode || event.which;
+		const keyValue = String.fromCharCode(keyCode);
+		const regex = /^[a-zA-Z\s]*$/;
+		if (!regex.test(keyValue)) {
+			event.preventDefault();
+		}
+	};
+	//
 
 	const validateEmail = (email) => {
 		if (!email.includes('@')) {
@@ -70,9 +56,6 @@ export const Registration = () => {
 		if (email.indexOf('@') < 2) {
 			return false;
 		}
-		// let toValid = email.split('@');
-		// const checkEmail = VALID_EMAIL_ENDINGS.includes(toValid[1]);
-		// return checkEmail;
 	};
 
 	const validatePassword = (password) => {
@@ -98,7 +81,6 @@ export const Registration = () => {
 			alert('write at least 6 characters ');
 			return;
 		}
-		console.log(name, password, email);
 		postData(name, password, email);
 		onResetForm();
 	};
@@ -115,6 +97,7 @@ export const Registration = () => {
 						name={'name'}
 						value={name}
 						onChange={onInputChange}
+						onKeyPress={onKeyPress}
 					/>
 					<h3>Email</h3>
 					<Input

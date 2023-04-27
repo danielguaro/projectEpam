@@ -1,3 +1,4 @@
+// To login
 export const postDataLogin = async (userEmail, userPassword) => {
 	const newUser = { email: userEmail, password: userPassword };
 	const response = await fetch('http://localhost:4000/login', {
@@ -12,23 +13,14 @@ export const postDataLogin = async (userEmail, userPassword) => {
 	if (result.successful === false) {
 		alert(result.result);
 		console.log(result.result);
-		// const { result: errorMessage } = result;
-		// console.log(errorMessage);
 		return {
 			isAuth: false,
 		};
 	}
-	// console.log(result);
-	// console.log(result.result);
-	// console.log(result.user);
+
 	const token = result.result;
 	const { name, email } = result.user;
-	// setUser(result.user);
-	// console.log(result.successful);
-	// console.log(result.errors[0]);
-	// localStorage.setItem('token', result.result);
-	// localStorage.setItem('name', result.user.name);
-	// onCourses();
+
 	return {
 		isAuth: true,
 		name,
@@ -37,33 +29,9 @@ export const postDataLogin = async (userEmail, userPassword) => {
 	};
 };
 
-// export const postDataRegistration = async (name, password, email) => {
-// 	const newUser = { name, password, email };
-// 	const response = await fetch('http://localhost:4000/register', {
-// 		method: 'POST',
-// 		body: JSON.stringify(newUser),
-// 		headers: {
-// 			'Content-Type': 'application/json',
-// 		},
-// 	});
-// 	const result = await response.json();
-
-// 	if (result.successful === false) {
-// 		// alert(result.errors[0]);
-// 		const error = result.errors[0];
-// 		return { ok: false, errorMessage: error };
-// 	}
-// 	// console.log(result.successful);
-// 	// console.log(result.errors[0]);
-// 	// console.log(result);
-// 	// onLogin();
-// 	return result;
-// };
-
 export const getCourses = async () => {
 	const response = await fetch('http://localhost:4000/courses/all');
 	const data = await response.json();
-	// console.log(data.result);
 
 	if (data.successful === false) {
 		return {
@@ -77,7 +45,6 @@ export const getCourses = async () => {
 export const getAuthors = async () => {
 	const response = await fetch('http://localhost:4000/authors/all');
 	const data = await response.json();
-	// console.log(data.result);
 
 	if (data.successful === false) {
 		return {
