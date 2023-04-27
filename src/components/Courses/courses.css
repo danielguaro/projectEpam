@@ -1,6 +1,16 @@
-.coursesSearch-button{
-  display: flex;
-  width: 90%;
-  margin: 20px auto ;
-  justify-content: space-between;
+.coursesSearch-button {
+	display: flex;
+	width: 90%;
+	margin: 20px auto;
+	justify-content: space-between;
+}
+
+@media (max-width: 540px) {
+	.coursesSearch-button {
+		flex-direction: column;
+	}
+
+	.buttonNewCourse {
+		width: 40%;
+	}
 }

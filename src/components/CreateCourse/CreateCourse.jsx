@@ -136,7 +136,9 @@ export const CreateCourse = () => {
 				<div>
 					<div className='createCourse-title-button'>
 						<div className='createCourse-title'>
-							<h3>Title</h3>
+							<h3>
+								Title <small className='requiredElements'> *is required</small>
+							</h3>
 							<Input
 								onSubmit={onFormSubmit}
 								placeholder={'Enter title...'}
@@ -148,7 +150,10 @@ export const CreateCourse = () => {
 						</div>
 						<Button buttonText={'Create course'} onClick={createCourse} />
 					</div>
-					<h3>Description</h3>
+					<h3>
+						Description
+						<small className='requiredElements'> *is required</small>
+					</h3>
 					<textarea
 						className='createCourse-textArea'
 						placeholder='Enter description'
@@ -161,7 +166,7 @@ export const CreateCourse = () => {
 					<div className='blabla'>
 						<div className='createCourse-author'>
 							<h2>Add author</h2>
-							<h3>Author name</h3>
+							<h3>Author Name</h3>
 							<Input
 								onSubmit={onFormSubmit}
 								placeholder={'Enter author name...'}
@@ -172,7 +177,7 @@ export const CreateCourse = () => {
 								type={'text'}
 								onKeyPress={onKeyPress}
 							/>
-							<Button buttonText={'Create author'} onClick={createAuthor} />
+							<Button buttonText={'Create Author'} onClick={createAuthor} />
 						</div>
 						<div className='createCourse-authorList'>
 							<h2>Authors</h2>
@@ -190,7 +195,10 @@ export const CreateCourse = () => {
 					<div className='blabla'>
 						<div className='createCourse-author'>
 							<h2>Duration</h2>
-							<h3>Duration</h3>
+							<h3>
+								Duration <br />
+								<small className='requiredElements'>*is required</small>
+							</h3>
 							<Input
 								onSubmit={onFormSubmit}
 								placeholder={'Enter duration in minutes...'}
@@ -205,7 +213,10 @@ export const CreateCourse = () => {
 							</p>
 						</div>
 						<div className='authorsSelected'>
-							<h2>Course authors </h2>
+							<h2>
+								Course authors <br />
+								<small className='requiredElements'> *is required</small>
+							</h2>
 							{authorsCourse.length === 0 ? (
 								<h3>Author list is empty</h3>
 							) : (

@@ -36,3 +36,12 @@ a {
 	color: #408e91;
 	font-size: 18px;
 }
+
+@media (max-width: 420px) {
+	.registrationElements {
+		width: 98%;
+	}
+	.registrationElements p {
+		text-align: center;
+	}
+}

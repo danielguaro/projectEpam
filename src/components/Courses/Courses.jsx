@@ -46,7 +46,11 @@ export const Courses = () => {
 							theState={clickAdding}
 							allCourses={allCourses}
 						/>
-						<Button buttonText={'Add new course'} onClick={clickAdding} />
+						<Button
+							buttonText={'Add new course'}
+							onClick={clickAdding}
+							className={'buttonNewCourse'}
+						/>
 					</div>
 					{courses.map((course) => (
 						<CourseCard key={course.id} {...course} allAuthors={allAuthors} />
@@ -60,7 +64,11 @@ export const Courses = () => {
 							theState={clickAdding}
 							allCourses={allCourses}
 						/>
-						<Button buttonText={'Add new course'} onClick={clickAdding} />
+						<Button
+							buttonText={'Add new course'}
+							onClick={clickAdding}
+							className={'buttonNewCourse'}
+						/>
 					</div>
 					{allCourses.map((course) => (
 						<CourseCard {...course} key={course.id} allAuthors={allAuthors} />

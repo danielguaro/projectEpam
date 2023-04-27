@@ -9,3 +9,18 @@ header {
 	align-items: center;
 	justify-content: space-between;
 }
+
+@media (max-width: 420px) {
+	.headerContact {
+		justify-content: flex-end;
+		width: 180px;
+	}
+	.headerContact Button {
+		margin-left: 10px;
+	}
+	.headerContact h3 {
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+	}
+}

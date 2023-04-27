@@ -7,3 +7,9 @@
 .searchBar Button {
 	margin: 0;
 }
+
+@media (max-width: 540px) {
+	.searchBar {
+		width: 98%;
+	}
+}
