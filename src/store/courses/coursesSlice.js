@@ -10,6 +10,9 @@ export const coursesSlice = createSlice({
 		// title, description, creationDate, id, duration, authors
 	},
 	reducers: {
+		getAllCourses: (state, { payload }) => {
+			state.courses = [...payload];
+		},
 		addNewEmptyCourse: (state, { payload }) => {
 			state.courses.push(payload);
 		},
@@ -17,13 +20,19 @@ export const coursesSlice = createSlice({
 		// 	console.log(payload);
 		// 	state.courses = state.courses.concat(payload);
 		// },
-		updateCourse: (state, action) => {},
+		updateCourse: (state, { payload }) => {
+			const updatedCourse = payload;
+			const index = state.courses.findIndex(
+				(course) => course.id === updatedCourse.id
+			);
+			if (index !== -1) {
+				state.courses[index] = updatedCourse;
+			}
+		},
 		deleteCourseById: (state, { payload }) => {
-			state.courses = removeCourseById(state.courses, payload);
+			state.courses = state.courses.filter((course) => course.id !== payload);
 		},
-		getAllCourses: (state, { payload }) => {
-			state.courses = payload;
-		},
+
 		addExampleOfCourse: (state, { payload }) => {
 			if (!state.courses) {
 				state.courses = getAllCourses();

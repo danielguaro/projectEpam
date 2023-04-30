@@ -1,22 +1,25 @@
 import './header.css';
 
 import { Link, useNavigate } from 'react-router-dom';
+import { logout, userLogout } from '../../store/user';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Button } from '../../common/Button/Button';
 import { Logo } from './components/Logo/Logo';
-import { logout } from '../../store/user';
+import { logoutMethod } from '../../helpers/providers';
 import { theUser } from '../../helpers/selectors';
 
 export const Header = () => {
 	// dispatch
 	const dispatch = useDispatch();
 	const name = useSelector(theUser).name;
+	const token = useSelector(theUser).token;
+	// console.log(token);
 
 	const navigate = useNavigate();
 
 	const onLogout = () => {
-		dispatch(logout());
+		dispatch(userLogout(token));
 		navigate('/login', {
 			replace: true,
 		});

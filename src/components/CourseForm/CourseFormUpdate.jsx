@@ -1,28 +1,58 @@
 import './creaeteCourse.css';
 
-import { Link, useNavigate } from 'react-router-dom';
-import { getDate, getId, getTime } from '../../helpers/';
+import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
+import {
+	addExampleOfAuthor,
+	addNewAuthor,
+	showAllAuthors,
+} from '../../store/authors';
+import {
+	addExampleOfCourse,
+	showAllCourses,
+	updateTheCourse,
+} from '../../store/courses';
+import { getCourseById, getDate, getId, getTime } from '../../helpers';
 import { theAuthors, theCourses, theUser } from '../../helpers/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 
 import { Button } from '../../common/Button/Button';
 import { Input } from '../../common/Input/Input';
-import { addExampleOfAuthor } from '../../store/authors';
-import { addExampleOfCourse } from '../../store/courses';
+import { updateACourse } from '../../helpers/providers';
 import { useForm } from '../../hooks/useForm';
 
-export const CreateCourse = () => {
+export const CourseFormUpdate = () => {
+	const { courseId } = useParams();
+	// console.log(courseId);
+
+	const course = getCourseById(courseId);
+	// console.log(course);
+	if (!course) {
+		return <Navigate to='/courses' />;
+	}
 	const allInfoAuthors = useSelector(theAuthors);
 	const allyAuthors = allInfoAuthors.authors;
+	const token = useSelector(theUser).token;
+	const checkAllAuthors = () => {
+		dispatch(showAllAuthors());
+	};
 
-	const [authors, setAuthors] = useState([]);
-	const [authorsCourse, setAuthorsCourse] = useState([]);
+	// allyAuthors.filter((author) => author.id !== id);
+	// console.log(allyAuthors);
+	const remainingAuthors = allyAuthors.filter(
+		(author) => !course?.authors.includes(author.id)
+	);
+	// console.log(course?.authors);
+	// console.log(remainingAuthors);
+
+	const [authors, setAuthors] = useState(remainingAuthors);
+	const [authorsCourse, setAuthorsCourse] = useState(course?.authors);
 
 	const dispatch = useDispatch();
 
 	const navigate = useNavigate();
 	const goCourses = () => {
+		dispatch(showAllCourses());
 		navigate('/courses');
 	};
 
@@ -34,14 +64,14 @@ export const CreateCourse = () => {
 		name: '',
 	});
 	const { title, description, duration, onInputChange, onResetForm } = useForm({
-		title: '',
-		description: '',
-		duration: '',
+		title: course?.title,
+		description: course?.description,
+		duration: course?.duration,
 	});
 
-	useEffect(() => {
-		setAuthors([...allyAuthors]);
-	}, []);
+	// useEffect(() => {
+	// 	setAuthors([...allyAuthors]);
+	// }, []);
 
 	const onFormSubmit = (e) => {
 		e.preventDefault();
@@ -49,16 +79,24 @@ export const CreateCourse = () => {
 
 	const createAuthor = () => {
 		if (name.length <= 1) return;
-		let id = getId();
-		setAuthors([...authors, { id: id, name: name }]);
+		// let id = getId();
+		// setAuthors([...authors, { id: id, name: name }]);
 
 		const newAuthor = {
-			id,
 			name,
+			// id,
 		};
-		dispatch(addExampleOfAuthor(newAuthor));
+		dispatch(addNewAuthor(newAuthor.name, token));
+		setTimeout(() => checkAllAuthors(), [300]);
 		onResetForm2();
 	};
+
+	useEffect(() => {
+		const remainingAuthors2 = allyAuthors.filter(
+			(author) => !course?.authors.includes(author.id)
+		);
+		setAuthors(remainingAuthors2);
+	}, [allyAuthors]);
 
 	// add author
 	const addAuthor = (id) => {
@@ -86,7 +124,7 @@ export const CreateCourse = () => {
 		}
 	};
 	//
-	const createCourse = () => {
+	const updatingCourse = () => {
 		if (title.length <= 1) {
 			alert('please write a title for the course');
 			return;
@@ -107,24 +145,36 @@ export const CreateCourse = () => {
 		const changeDescription = description.toLowerCase();
 		const newDescription =
 			changeDescription.charAt(0).toUpperCase() + changeDescription.slice(1);
-		let id = getId();
-		let creationDate = getDate();
-		const newCourse = {
-			id,
+		// let id = getId();
+		// let creationDate = getDate();
+		const update = {
 			title,
 			description: newDescription,
-			creationDate,
 			duration: duration * 1,
 			authors: authorsCourse,
+			id: courseId,
+			token,
 		};
 
-		// handleNewCourse(newCourse);
-		dispatch(addExampleOfCourse(newCourse));
-		onResetForm();
-		onResetForm2();
-		setAuthors([]);
-		setAuthorsCourse([]);
-		goCourses();
+		// handleupdate(update);
+		// dispatch(addExampleOfCourse(update));
+		dispatch(
+			updateTheCourse(
+				update.title,
+				update.description,
+				update.duration,
+				update.authors,
+				update.id,
+				update.token
+			)
+		);
+		// dispatch(updateTheCourse(newCourse));
+		// onResetForm();
+		// onResetForm2();
+		// setAuthors([]);
+		// setAuthorsCourse([]);
+
+		setTimeout(() => goCourses(), [300]);
 	};
 
 	return (
@@ -148,7 +198,7 @@ export const CreateCourse = () => {
 								onChange={onInputChange}
 							/>
 						</div>
-						<Button buttonText={'Create course'} onClick={createCourse} />
+						<Button buttonText={'Update course'} onClick={updatingCourse} />
 					</div>
 					<h3>
 						Description
@@ -226,7 +276,7 @@ export const CreateCourse = () => {
 											<h3>
 												{
 													allyAuthors.find((person) => person.id === authorId)
-														.name
+														?.name
 												}
 											</h3>
 											<Button

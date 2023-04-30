@@ -1,6 +1,6 @@
 import './courses.css';
 
-import { theAuthors, theCourses } from '../../helpers/selectors';
+import { theAuthors, theCourses, theUser } from '../../helpers/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Button } from '../../common/Button/Button';
@@ -9,6 +9,8 @@ import { SearchBar } from './components/SearchBar/SearchBar';
 import { showAllCourses } from '../../store/courses';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+
+// import { roleUser } from '../../store/user';
 
 export const Courses = () => {
 	const dispatch = useDispatch();
@@ -20,6 +22,7 @@ export const Courses = () => {
 	const allCourses = allInfoCourse.courses;
 	const allInfoAuthors = useSelector(theAuthors);
 	const allAuthors = allInfoAuthors.authors;
+	const role = useSelector(theUser).role;
 
 	// console.log('theCourses', allCourses);
 	// console.log('theAuthors', allAuthors);
@@ -38,43 +41,27 @@ export const Courses = () => {
 
 	return (
 		<>
-			{courses.length > 0 ? (
-				<>
-					<div className='coursesSearch-button'>
-						<SearchBar
-							searchedCourses={handleChildDataChange}
-							theState={clickAdding}
-							allCourses={allCourses}
-						/>
-						<Button
-							buttonText={'Add new course'}
-							onClick={clickAdding}
-							className={'buttonNewCourse'}
-						/>
-					</div>
-					{courses.map((course) => (
+			<div className='coursesSearch-button'>
+				<SearchBar
+					searchedCourses={handleChildDataChange}
+					theState={clickAdding}
+					allCourses={allCourses}
+				/>
+				{role === 'admin' && (
+					<Button
+						buttonText={'Add new course'}
+						onClick={clickAdding}
+						className={'buttonNewCourse'}
+					/>
+				)}
+			</div>
+			{courses.length > 0
+				? courses.map((course) => (
 						<CourseCard key={course.id} {...course} allAuthors={allAuthors} />
-					))}
-				</>
-			) : (
-				<>
-					<div className='coursesSearch-button'>
-						<SearchBar
-							searchedCourses={handleChildDataChange}
-							theState={clickAdding}
-							allCourses={allCourses}
-						/>
-						<Button
-							buttonText={'Add new course'}
-							onClick={clickAdding}
-							className={'buttonNewCourse'}
-						/>
-					</div>
-					{allCourses.map((course) => (
+				  ))
+				: allCourses.map((course) => (
 						<CourseCard {...course} key={course.id} allAuthors={allAuthors} />
-					))}
-				</>
-			)}
+				  ))}
 		</>
 	);
 };

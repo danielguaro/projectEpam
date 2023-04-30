@@ -1,10 +1,10 @@
-import { createNewAuthor, getAuthors } from '../../helpers/providers';
 import {
 	addNewEmptyAuthor,
-	updateAuthor,
 	deleteAuthorById,
 	getAllAuthors,
+	updateAuthor,
 } from './authorsSlice';
+import { createNewAuthor, getAuthors } from '../../helpers/providers';
 
 export const showAllAuthors = () => {
 	return async (dispatch) => {

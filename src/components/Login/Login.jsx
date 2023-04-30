@@ -1,11 +1,11 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 
 import { Button } from '../../common/Button/Button';
 import { Input } from '../../common/Input/Input';
 import { showAllAuthors } from '../../store/authors';
 import { showAllCourses } from '../../store/courses';
 import { startLoginWithEmailPassword } from '../../store/user';
+import { useDispatch } from 'react-redux';
 import { useForm } from '../../hooks/useForm';
 
 export const Login = () => {
@@ -27,9 +27,6 @@ export const Login = () => {
 		});
 	};
 	const sendLogin = () => {
-		// postData(email, password);
-		// onResetForm();
-		// Testings
 		dispatch(startLoginWithEmailPassword(email, password));
 		dispatch(showAllCourses());
 		dispatch(showAllAuthors());

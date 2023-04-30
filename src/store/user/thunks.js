@@ -1,10 +1,8 @@
-import { checkingCredentials, login, logout } from './userSlice';
-
-import { postDataLogin } from '../../helpers/providers';
+import { login, logout } from './userSlice';
+import { logoutMethod, postDataLogin } from '../../helpers/providers';
 
 export const startLoginWithEmailPassword = (email, password) => {
 	return async (dispatch) => {
-		dispatch(checkingCredentials());
 		const result = await postDataLogin(email, password);
 		// console.log('hola', result);
 		// console.log(result.errorMessage);
@@ -14,6 +12,30 @@ export const startLoginWithEmailPassword = (email, password) => {
 		dispatch(login(result));
 	};
 };
+
+export const userLogout = (token) => {
+	return async (dispatch) => {
+		const result = await logoutMethod(token);
+		console.log(result);
+		dispatch(logout(result));
+		// try {
+		// } catch (err) {
+		// 	console.log(err);
+		// }
+	};
+};
+
+// CheckRoleUser
+// export const roleUser = (token) => {
+// 	return async (dispatch) => {
+// 		try {
+// 			const result = await getRole(token);
+// 			dispatch(checkRole(result));
+// 		} catch (error) {
+// 			console.log(error);
+// 		}
+// 	};
+// };
 
 // export const startCreatingUserWithEmailPassword = (name, password, email) => {
 // 	return async (dispatch) => {
