@@ -70,7 +70,7 @@
 	flex-direction: column;
 }
 
-.blabla {
+.container-author-duration {
 	display: flex;
 	justify-content: space-between;
 }
@@ -84,7 +84,7 @@
 }
 
 .author-button h3 {
-	width: 140px;
+	width: auto;
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
@@ -93,6 +93,7 @@
 
 .author-button Button {
 	margin-bottom: 10px;
+	min-width: 120px;
 }
 
 .authorsSelected {
@@ -100,6 +101,10 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+}
+
+.authorsSelected-emptyList {
+	color: #ff6969;
 }
 
 .authors-choice {

@@ -58,3 +58,7 @@ aside {
 aside p {
 	margin-bottom: 6px;
 }
+
+aside p strong {
+	color: #569daa;
+}

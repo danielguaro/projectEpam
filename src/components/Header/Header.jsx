@@ -1,12 +1,11 @@
 import './header.css';
 
 import { Link, useNavigate } from 'react-router-dom';
-import { logout, userLogout } from '../../store/user';
+import { userLogout } from '../../store/user';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Button } from '../../common/Button/Button';
 import { Logo } from './components/Logo/Logo';
-import { logoutMethod } from '../../helpers/providers';
 import { theUser } from '../../helpers/selectors';
 
 export const Header = () => {
@@ -14,15 +13,18 @@ export const Header = () => {
 	const dispatch = useDispatch();
 	const name = useSelector(theUser).name;
 	const token = useSelector(theUser).token;
-	// console.log(token);
 
 	const navigate = useNavigate();
 
-	const onLogout = () => {
-		dispatch(userLogout(token));
+	const leave = () => {
 		navigate('/login', {
 			replace: true,
 		});
+	};
+
+	const onLogout = () => {
+		dispatch(userLogout(token));
+		setTimeout(() => leave(), [100]);
 	};
 
 	return (

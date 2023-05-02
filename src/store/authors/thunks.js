@@ -1,24 +1,24 @@
-import {
-	addNewEmptyAuthor,
-	deleteAuthorById,
-	getAllAuthors,
-	updateAuthor,
-} from './authorsSlice';
-import { createNewAuthor, getAuthors } from '../../helpers/providers';
+import { addNewEmptyAuthor, getAllAuthors } from './authorsSlice';
+import { createNewAuthor, getAuthors } from './functions';
 
 export const showAllAuthors = () => {
 	return async (dispatch) => {
-		const result = await getAuthors();
-		// console.log('-*-*-*-*', result);
-		dispatch(getAllAuthors(result));
+		try {
+			const result = await getAuthors();
+			dispatch(getAllAuthors(result));
+		} catch (err) {
+			console.log(err);
+		}
 	};
 };
 
 export const addNewAuthor = (authorName, token) => {
 	return async (dispatch) => {
-		const result = await createNewAuthor(authorName, token);
-		console.log(result);
-
-		dispatch(addNewEmptyAuthor(result));
+		try {
+			const result = await createNewAuthor(authorName, token);
+			dispatch(addNewEmptyAuthor(result));
+		} catch (err) {
+			console.log(err);
+		}
 	};
 };

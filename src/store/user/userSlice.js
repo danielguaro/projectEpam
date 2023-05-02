@@ -25,28 +25,22 @@ export const userSlice = createSlice({
 			// localStorage.setItem('email', payload.email);
 			localStorage.setItem('token', payload.token);
 		},
-		// el payload, podría ser opcional
+
 		logout: (state, { payload }) => {
-			state.isAuth = payload;
-			state.name = '';
-			state.email = '';
+			state.isAuth = payload.isAuth;
+			state.name = payload.name;
+			state.email = payload.email;
 			// state.token = '';
 			// localStorage.removeItem('name');
 			// localStorage.removeItem('email');
 			localStorage.removeItem('token');
 			localStorage.removeItem('role');
-			state.token = '';
-			state.role = '';
-			state.message = '';
+			state.token = payload.token;
+			state.role = payload.role;
+			state.message = payload.message;
 		},
-		// checkRole: (state, { payload }) => {
-		// 	if (payload) {
-		// 		state.role = payload;
-		// 		localStorage.setItem('role', payload);
-		// 	}
-		// },
 	},
 });
 
 // Action creators are generated for each case reducer function
-export const { login, logout, checkRole } = userSlice.actions;
+export const { login, logout } = userSlice.actions;

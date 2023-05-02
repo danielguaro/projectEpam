@@ -1,7 +1,6 @@
 import './registration.css';
 
 import { Link, useNavigate } from 'react-router-dom';
-import React, { useEffect } from 'react';
 
 import { Button } from '../../common/Button/Button';
 import { Input } from '../../common/Input/Input';
@@ -70,15 +69,15 @@ export const Registration = () => {
 
 	const sendRegistration = () => {
 		if (name.trim() === '') {
-			alert('write a name ');
+			alert('Please write a name ');
 			return;
 		}
 		if (validateEmail(email) === false) {
-			alert('write a propertly email "example@gmail.com"');
+			alert('write a properly email "example@gmail.com"');
 			return;
 		}
 		if (validatePassword(password) === false) {
-			alert('write at least 6 characters ');
+			alert('write at least 6 characters');
 			return;
 		}
 		postData(name, password, email);

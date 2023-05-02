@@ -1,11 +1,9 @@
-import './searchbar.css';
+import './searchBar.css';
 
-import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { Button } from '../../../../common/Button/Button';
 import { Input } from '../../../../common/Input/Input';
-import queryString from 'query-string';
 import { useForm } from '../../../../hooks/useForm';
 
 export const SearchBar = ({ searchedCourses, allCourses }) => {

@@ -1,18 +1,14 @@
-import './creaeteCourse.css';
+import './courseForm.css';
 
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
+import { addNewAuthor, showAllAuthors } from '../../store/authors';
 import {
-	addExampleOfAuthor,
-	addNewAuthor,
-	showAllAuthors,
-} from '../../store/authors';
-import {
-	addExampleOfCourse,
 	newCourse,
 	showAllCourses,
+	updateTheCourse,
 } from '../../store/courses';
-import { getDate, getId, getTime } from '../../helpers';
-import { theAuthors, theCourses, theUser } from '../../helpers/selectors';
+import { getCourseById, getTime } from '../../helpers';
+import { theAuthors, theUser } from '../../helpers/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 
@@ -21,24 +17,14 @@ import { Input } from '../../common/Input/Input';
 import { useForm } from '../../hooks/useForm';
 
 export const CourseForm = () => {
+	const { courseId } = useParams();
 	const allInfoAuthors = useSelector(theAuthors);
-	const allyAuthors = allInfoAuthors.authors;
+	const allAuthors = allInfoAuthors.authors;
 	const token = useSelector(theUser).token;
-	const checkAllAuthors = () => {
-		dispatch(showAllAuthors());
-	};
-
-	const [authors, setAuthors] = useState(allyAuthors);
-	const [authorsCourse, setAuthorsCourse] = useState([]);
-
 	const dispatch = useDispatch();
-
 	const navigate = useNavigate();
-	const goCourses = () => {
-		dispatch(showAllCourses());
-		navigate('/courses');
-	};
-
+	const [authors, setAuthors] = useState(allAuthors);
+	const [authorsCourse, setAuthorsCourse] = useState([]);
 	const {
 		name,
 		onInputChange: onInputChange2,
@@ -46,49 +32,93 @@ export const CourseForm = () => {
 	} = useForm({
 		name: '',
 	});
-	const { title, description, duration, onInputChange, onResetForm } = useForm({
+	const {
+		title,
+		description,
+		duration,
+		onInputChange,
+		onResetForm,
+		updateFormState,
+	} = useForm({
 		title: '',
 		description: '',
 		duration: '',
 	});
 
-	// useEffect(() => {
-	// 	setAuthors([...allyAuthors]);
-	// }, []);
+	const checkAllAuthors = () => {
+		dispatch(showAllAuthors());
+	};
+
+	if (courseId != undefined) {
+		const course = getCourseById(courseId);
+		if (!course) {
+			return <Navigate to='/courses' />;
+		}
+
+		useEffect(() => {
+			setAuthorsCourse(course?.authors);
+		}, [course]);
+
+		useEffect(() => {
+			updateFormState({
+				title: course?.title,
+				description: course?.description,
+				duration: course?.duration,
+			});
+		}, [course]);
+		useEffect(() => {
+			const remainingAuthors = allAuthors.filter(
+				(author) => !course?.authors.includes(author.id)
+			);
+			setAuthors(remainingAuthors);
+		}, [allAuthors]);
+	}
+
+	const goCourses = () => {
+		dispatch(showAllCourses());
+		navigate('/courses');
+	};
 
 	const onFormSubmit = (e) => {
 		e.preventDefault();
 	};
 
+	// To create an Author
 	const createAuthor = () => {
 		if (name.length <= 1) return;
-		// let id = getId();
-		// setAuthors([...authors, { id: id, name: name }]);
 
 		const newAuthor = {
-			// id,
 			name,
 		};
 		dispatch(addNewAuthor(newAuthor.name, token));
 		setTimeout(() => checkAllAuthors(), [300]);
-		// dispatch(addExampleOfAuthor(newAuthor));
 		onResetForm2();
 	};
+
 	useEffect(() => {
-		setAuthors(allyAuthors);
-	}, [allyAuthors]);
+		if (!courseId) {
+			setAuthors(allAuthors);
+		}
+	}, [allAuthors]);
+	useEffect(() => {
+		if (authorsCourse.length > 0) {
+			const remainingAuthors = allAuthors.filter(
+				(author) => !authorsCourse.includes(author.id)
+			);
+			setAuthors(remainingAuthors);
+		}
+	}, [allAuthors]);
 
 	// add author
 	const addAuthor = (id) => {
 		setAuthors(authors.filter((author) => author.id !== id));
 		setAuthorsCourse([...authorsCourse, id]);
 	};
-	//
 
 	// Deleting author
 	const deleteAuthor = (authorId) => {
 		const newAuthors = [...authors];
-		const author = allyAuthors.find((person) => person.id === authorId);
+		const author = allAuthors.find((person) => person.id === authorId);
 		newAuthors.push(author);
 		setAuthors(newAuthors);
 		setAuthorsCourse(authorsCourse.filter((personId) => personId !== authorId));
@@ -103,7 +133,7 @@ export const CourseForm = () => {
 			event.preventDefault();
 		}
 	};
-	//
+
 	const createCourse = () => {
 		if (title.length <= 1) {
 			alert('please write a title for the course');
@@ -125,35 +155,50 @@ export const CourseForm = () => {
 		const changeDescription = description.toLowerCase();
 		const newDescription =
 			changeDescription.charAt(0).toUpperCase() + changeDescription.slice(1);
-		// let id = getId();
-		// let creationDate = getDate();
 		const ElementsOfNewCourse = {
 			title,
 			description: newDescription,
 			duration: duration * 1,
 			authors: authorsCourse,
 			token,
-			// creationDate,
-			// id,
 		};
 
-		// handleNewCourse(newCourse);
-		// dispatch(addExampleOfCourse(newCourse));
-		dispatch(
-			newCourse(
-				ElementsOfNewCourse.title,
-				ElementsOfNewCourse.description,
-				ElementsOfNewCourse.duration,
-				ElementsOfNewCourse.authors,
-				ElementsOfNewCourse.token
-			)
-		);
-		onResetForm();
-		onResetForm2();
-		setAuthors([]);
-		setAuthorsCourse([]);
+		if (courseId != undefined) {
+			const update = {
+				title,
+				description: newDescription,
+				duration: duration * 1,
+				authors: authorsCourse,
+				id: courseId,
+				token,
+			};
+
+			dispatch(
+				updateTheCourse(
+					update.title,
+					update.description,
+					update.duration,
+					update.authors,
+					update.id,
+					update.token
+				)
+			);
+		} else {
+			dispatch(
+				newCourse(
+					ElementsOfNewCourse.title,
+					ElementsOfNewCourse.description,
+					ElementsOfNewCourse.duration,
+					ElementsOfNewCourse.authors,
+					ElementsOfNewCourse.token
+				)
+			);
+			onResetForm();
+			onResetForm2();
+			setAuthors([]);
+			setAuthorsCourse([]);
+		}
 		setTimeout(() => goCourses(), [300]);
-		// goCourses();
 	};
 
 	return (
@@ -177,7 +222,10 @@ export const CourseForm = () => {
 								onChange={onInputChange}
 							/>
 						</div>
-						<Button buttonText={'Create course'} onClick={createCourse} />
+						<Button
+							buttonText={!courseId ? 'Create course' : 'Update course'}
+							onClick={createCourse}
+						/>
 					</div>
 					<h3>
 						Description
@@ -192,7 +240,7 @@ export const CourseForm = () => {
 					></textarea>
 				</div>
 				<div className='createCourse-author-duration'>
-					<div className='blabla'>
+					<div className='container-author-duration'>
 						<div className='createCourse-author'>
 							<h2>Add author</h2>
 							<h3>Author Name</h3>
@@ -221,7 +269,7 @@ export const CourseForm = () => {
 							))}
 						</div>
 					</div>
-					<div className='blabla'>
+					<div className='container-author-duration'>
 						<div className='createCourse-author'>
 							<h2>Duration</h2>
 							<h3>
@@ -247,14 +295,16 @@ export const CourseForm = () => {
 								<small className='requiredElements'> *is required</small>
 							</h2>
 							{authorsCourse.length === 0 ? (
-								<h3>Author list is empty</h3>
+								<h3 className='authorsSelected-emptyList'>
+									Author list is empty
+								</h3>
 							) : (
 								<div className='authors-choice'>
 									{authorsCourse?.map((authorId) => (
 										<div key={authorId} className='authorChoice-button'>
 											<h3>
 												{
-													allyAuthors.find((person) => person.id === authorId)
+													allAuthors.find((person) => person.id === authorId)
 														?.name
 												}
 											</h3>

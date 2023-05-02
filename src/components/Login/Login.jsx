@@ -30,7 +30,8 @@ export const Login = () => {
 		dispatch(startLoginWithEmailPassword(email, password));
 		dispatch(showAllCourses());
 		dispatch(showAllAuthors());
-		setTimeout(() => onCourses(), [500]);
+		onResetForm();
+		setTimeout(() => onCourses(), [200]);
 	};
 
 	return (

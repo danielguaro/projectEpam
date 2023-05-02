@@ -2,7 +2,6 @@ import {
 	addNewEmptyCourse,
 	deleteCourseById,
 	getAllCourses,
-	setCourses,
 	updateCourse,
 } from './coursesSlice';
 import {
@@ -10,13 +9,16 @@ import {
 	deleteCourse,
 	getCourses,
 	updateACourse,
-} from '../../helpers/providers';
+} from './functions';
 
 export const showAllCourses = () => {
 	return async (dispatch) => {
-		// Aplicar try Catch
-		const result = await getCourses();
-		dispatch(getAllCourses(result));
+		try {
+			const result = await getCourses();
+			dispatch(getAllCourses(result));
+		} catch (err) {
+			console.log(err);
+		}
 	};
 };
 
@@ -27,8 +29,12 @@ export const removeCourseById = (courses, id) => {
 
 export const removeCourse = (courseId, userToken) => {
 	return async (dispatch) => {
-		const deleting = await deleteCourse(courseId, userToken);
-		dispatch(deleteCourseById(courseId));
+		try {
+			const deleting = await deleteCourse(courseId, userToken);
+			dispatch(deleteCourseById(courseId));
+		} catch (err) {
+			console.log(err);
+		}
 	};
 };
 
@@ -42,16 +48,19 @@ export const updateTheCourse = (
 	userToken
 ) => {
 	return async (dispatch) => {
-		const result = await updateACourse(
-			courseTitle,
-			courseDescription,
-			courseDuration,
-			courseAuthors,
-			courseId,
-			userToken
-		);
-		console.log(result);
-		dispatch(updateCourse(result));
+		try {
+			const result = await updateACourse(
+				courseTitle,
+				courseDescription,
+				courseDuration,
+				courseAuthors,
+				courseId,
+				userToken
+			);
+			dispatch(updateCourse(result));
+		} catch (err) {
+			console.log(err);
+		}
 	};
 };
 
@@ -64,13 +73,17 @@ export const newCourse = (
 	token
 ) => {
 	return async (dispatch) => {
-		const result = await createNewCourse(
-			titleCourse,
-			descriptionCourse,
-			durationCourse,
-			authorsCourse,
-			token
-		);
-		dispatch(addNewEmptyCourse(result));
+		try {
+			const result = await createNewCourse(
+				titleCourse,
+				descriptionCourse,
+				durationCourse,
+				authorsCourse,
+				token
+			);
+			dispatch(addNewEmptyCourse(result));
+		} catch (err) {
+			console.log(err);
+		}
 	};
 };

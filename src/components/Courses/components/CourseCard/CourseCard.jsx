@@ -1,13 +1,12 @@
 import './courseCard.css';
 
-import { deleteCourseById, removeCourse } from '../../../../store/courses';
+import { removeCourse } from '../../../../store/courses';
 import { theCourses, theUser } from '../../../../helpers/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 
 import { Button } from '../../../../common/Button/Button';
 import { Link } from 'react-router-dom';
-import { deleteCourse } from '../../../../helpers/providers';
 import { getTime } from '../../../../helpers/';
 
 export const CourseCard = ({
@@ -38,12 +37,19 @@ export const CourseCard = ({
 		}
 	}, [allCourses]);
 
-	// console.log(deletedCourseId);
 	const handleDelete = (courseId) => {
-		// deleteCourse(courseId, token);
 		dispatch(removeCourse(courseId, token));
 		setDeletedCourseId(courseId);
 	};
+
+	const buttons = (
+		<>
+			<Link to={`/courses/update/${id}`}>
+				<Button className={'editButton'} />
+			</Link>
+			<Button className={'deleteButton'} onClick={() => handleDelete(id)} />
+		</>
+	);
 
 	return (
 		<article className='courseCard-box'>
@@ -59,17 +65,7 @@ export const CourseCard = ({
 					<Link to={`/courses/${id}`}>
 						<Button buttonText={'Show course'} />
 					</Link>
-					{role === 'admin' && (
-						<>
-							<Link to={`/courses/update/${id}`}>
-								<Button className={'editButton'} />
-							</Link>
-							<Button
-								className={'deleteButton'}
-								onClick={() => handleDelete(id)}
-							/>
-						</>
-					)}
+					{role === 'admin' && buttons}
 				</div>
 			</div>
 		</article>

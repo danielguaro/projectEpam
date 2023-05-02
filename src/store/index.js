@@ -1,17 +1,17 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { userSlice } from './user';
-import storage from 'redux-persist/lib/storage'; // Permite almacenar cualquier valor
-import { combineReducers } from '@reduxjs/toolkit'; // Para tener multiples reducers
+import storage from 'redux-persist/lib/storage'; // Let store any value
+import { combineReducers } from '@reduxjs/toolkit'; // to have multiply reducers
 import { persistReducer } from 'redux-persist';
-// thunk es el encargado de conectar redux-persist con redux-toolkit
+// thunk is in charge of connecting redux-persist with redux-toolkit
 import thunk from 'redux-thunk';
 import { coursesSlice } from './courses';
 import { authorsSlice } from './authors';
-// Para almacenar los valores
+// to store the values
 const persistConfig = {
-	key: 'root', // COmo quiero que se almacene de manera local
-	storage, //Controlador o libreria que se encarga de almacenar la información
-	whitelist: ['userState', 'coursesState', 'authorsState'], // array de reducers que quiero guardar
+	key: 'root', // how i want to store it locally
+	storage, // Controller or library that is responsible for storing the information
+	whitelist: ['userState', 'coursesState', 'authorsState'], // array of reducers that i would like to save
 };
 
 const rootReducer = combineReducers({
@@ -29,6 +29,5 @@ export const store = configureStore({
 		courses: persistedReducer,
 		authors: persistedReducer,
 	},
-	// Esto es nuevo
 	middleware: [thunk],
 });

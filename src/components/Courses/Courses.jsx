@@ -10,22 +10,15 @@ import { showAllCourses } from '../../store/courses';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
-// import { roleUser } from '../../store/user';
-
 export const Courses = () => {
 	const dispatch = useDispatch();
 	const [courses, setCourses] = useState([]);
 	const navigate = useNavigate();
-	// const theCourses = useSelector((state) => state.courses.coursesState);
-	// const theAuthors = useSelector((state) => state.authors.authorsState);
 	const allInfoCourse = useSelector(theCourses);
 	const allCourses = allInfoCourse.courses;
 	const allInfoAuthors = useSelector(theAuthors);
 	const allAuthors = allInfoAuthors.authors;
 	const role = useSelector(theUser).role;
-
-	// console.log('theCourses', allCourses);
-	// console.log('theAuthors', allAuthors);
 
 	if (allCourses.length === 0) {
 		dispatch(showAllCourses());

@@ -13,6 +13,13 @@ export const useForm = (initialForm = {}) => {
 		});
 	};
 
+	const updateFormState = (newFormState) => {
+		setFormState({
+			...formState,
+			...newFormState,
+		});
+	};
+
 	const onResetForm = () => {
 		setFormState(initialForm);
 	};
@@ -22,5 +29,6 @@ export const useForm = (initialForm = {}) => {
 		formState,
 		onInputChange,
 		onResetForm,
+		updateFormState,
 	};
 };
