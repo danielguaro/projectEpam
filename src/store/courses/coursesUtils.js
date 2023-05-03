@@ -50,10 +50,6 @@ export const createNewCourse = async (
 	});
 	const result = await response.json();
 
-	// if (result.errors[0]) {
-	// 	console.log(result.errors[0]);
-	// 	return;
-	// }
 	if (result.successful === false) {
 		alert(result.result);
 		return;

@@ -1,5 +1,5 @@
 import { login, logout } from './userSlice';
-import { postDataLogin, logoutMethod } from './functions';
+import { logoutMethod, postDataLogin } from './userUtils';
 
 export const startLoginWithEmailPassword = (email, password) => {
 	return async (dispatch) => {
@@ -9,7 +9,7 @@ export const startLoginWithEmailPassword = (email, password) => {
 
 			dispatch(login(result));
 		} catch (err) {
-			console.error(err);
+			console.log(err);
 		}
 	};
 };
@@ -19,8 +19,8 @@ export const userLogout = (token) => {
 		try {
 			const result = await logoutMethod(token);
 			dispatch(logout(result));
-		} catch (err) {
-			console.log(err);
+		} catch {
+			alert('Sorry, there is an error withe the server, try later');
 		}
 	};
 };

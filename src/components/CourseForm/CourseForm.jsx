@@ -2,12 +2,12 @@ import './courseForm.css';
 
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { addNewAuthor, showAllAuthors } from '../../store/authors';
+import { getCourseById, getTime } from '../../helpers';
 import {
 	newCourse,
 	showAllCourses,
 	updateTheCourse,
 } from '../../store/courses';
-import { getCourseById, getTime } from '../../helpers';
 import { theAuthors, theUser } from '../../helpers/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
@@ -48,31 +48,18 @@ export const CourseForm = () => {
 	const checkAllAuthors = () => {
 		dispatch(showAllAuthors());
 	};
+	const course = getCourseById(courseId);
 
-	if (courseId != undefined) {
-		const course = getCourseById(courseId);
-		if (!course) {
-			return <Navigate to='/courses' />;
-		}
-
-		useEffect(() => {
+	useEffect(() => {
+		if (course !== undefined) {
 			setAuthorsCourse(course?.authors);
-		}, [course]);
-
-		useEffect(() => {
 			updateFormState({
 				title: course?.title,
 				description: course?.description,
 				duration: course?.duration,
 			});
-		}, [course]);
-		useEffect(() => {
-			const remainingAuthors = allAuthors.filter(
-				(author) => !course?.authors.includes(author.id)
-			);
-			setAuthors(remainingAuthors);
-		}, [allAuthors]);
-	}
+		}
+	}, [course]);
 
 	const goCourses = () => {
 		dispatch(showAllCourses());
@@ -99,7 +86,8 @@ export const CourseForm = () => {
 		if (!courseId) {
 			setAuthors(allAuthors);
 		}
-	}, [allAuthors]);
+	}, [courseId, allAuthors]);
+
 	useEffect(() => {
 		if (authorsCourse.length > 0) {
 			const remainingAuthors = allAuthors.filter(
@@ -107,7 +95,13 @@ export const CourseForm = () => {
 			);
 			setAuthors(remainingAuthors);
 		}
-	}, [allAuthors]);
+	}, [allAuthors, authorsCourse]);
+
+	if (courseId !== undefined) {
+		if (!course) {
+			return <Navigate to='/courses' />;
+		}
+	}
 
 	// add author
 	const addAuthor = (id) => {
@@ -198,7 +192,7 @@ export const CourseForm = () => {
 			setAuthors([]);
 			setAuthorsCourse([]);
 		}
-		setTimeout(() => goCourses(), [300]);
+		setTimeout(() => goCourses(), [100]);
 	};
 
 	return (
@@ -294,7 +288,7 @@ export const CourseForm = () => {
 								Course authors <br />
 								<small className='requiredElements'> *is required</small>
 							</h2>
-							{authorsCourse.length === 0 ? (
+							{authorsCourse?.length === 0 ? (
 								<h3 className='authorsSelected-emptyList'>
 									Author list is empty
 								</h3>

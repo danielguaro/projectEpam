@@ -9,15 +9,15 @@ import {
 	deleteCourse,
 	getCourses,
 	updateACourse,
-} from './functions';
+} from './coursesUtils';
 
 export const showAllCourses = () => {
 	return async (dispatch) => {
 		try {
 			const result = await getCourses();
 			dispatch(getAllCourses(result));
-		} catch (err) {
-			console.log(err);
+		} catch {
+			alert('Sorry, there is an error withe the server, try later');
 		}
 	};
 };
@@ -32,8 +32,8 @@ export const removeCourse = (courseId, userToken) => {
 		try {
 			const deleting = await deleteCourse(courseId, userToken);
 			dispatch(deleteCourseById(courseId));
-		} catch (err) {
-			console.log(err);
+		} catch {
+			alert('Sorry, there is an error withe the server, try later');
 		}
 	};
 };
@@ -59,7 +59,7 @@ export const updateTheCourse = (
 			);
 			dispatch(updateCourse(result));
 		} catch (err) {
-			console.log(err);
+			alert('Sorry, there is an error withe the server, try later');
 		}
 	};
 };
@@ -83,7 +83,7 @@ export const newCourse = (
 			);
 			dispatch(addNewEmptyCourse(result));
 		} catch (err) {
-			console.log(err);
+			alert('Sorry, there is an error withe the server, try later');
 		}
 	};
 };
