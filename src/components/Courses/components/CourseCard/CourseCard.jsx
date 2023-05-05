@@ -1,6 +1,5 @@
 import './courseCard.css';
 
-import { removeCourse } from '../../../../store/courses';
 import { theCourses, theUser } from '../../../../helpers/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
@@ -8,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { Button } from '../../../../common/Button/Button';
 import { Link } from 'react-router-dom';
 import { getTime } from '../../../../helpers/';
+import { removeCourse } from '../../../../store/courses';
 
 export const CourseCard = ({
 	id,
@@ -52,7 +52,7 @@ export const CourseCard = ({
 	);
 
 	return (
-		<article className='courseCard-box'>
+		<article data-testid='course-card' className='courseCard-box'>
 			<div className='courseCard-title-description'>
 				<h1>{title}</h1>
 				<p>{description}</p>

@@ -1,13 +1,11 @@
 import './logo.css';
 
-import book_logo from '../../../assets/bookLogo.png';
-
-export const Logo = () => {
+export const Logo = ({ src }) => {
 	return (
 		<>
-			<picture className='logoPic'>
-				<img src={book_logo} alt='Book_logo' />
-			</picture>
+			<div className='logoPic'>
+				<img src={src} alt='Book_logo' data-testid='logo-img' />
+			</div>
 		</>
 	);
 };

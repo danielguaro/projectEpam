@@ -1,12 +1,13 @@
 import './header.css';
 
 import { Link, useNavigate } from 'react-router-dom';
-import { userLogout } from '../../store/user';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Button } from '../../common/Button/Button';
 import { Logo } from './components/Logo/Logo';
+import book_logo from '../assets/bookLogo.png';
 import { theUser } from '../../helpers/selectors';
+import { userLogout } from '../../store/user';
 
 export const Header = () => {
 	// dispatch
@@ -30,7 +31,7 @@ export const Header = () => {
 	return (
 		<header>
 			<Link to={'/courses'}>
-				<Logo />
+				<Logo src={book_logo} />
 			</Link>
 			<div className='headerContact'>
 				{name && <h3>{name}</h3>}

@@ -200,7 +200,7 @@ export const CourseForm = () => {
 			<p>
 				<Link to='/courses'> {'<- '}Back to courses</Link>
 			</p>
-			<div className='createCourseContainer'>
+			<div data-testid='course-form' className='createCourseContainer'>
 				<div>
 					<div className='createCourse-title-button'>
 						<div className='createCourse-title'>
@@ -253,7 +253,11 @@ export const CourseForm = () => {
 						<div className='createCourse-authorList'>
 							<h2>Authors</h2>
 							{authors.map((author) => (
-								<div key={author.id} className='author-button'>
+								<div
+									role='authorsList'
+									key={author.id}
+									className='author-button'
+								>
 									<h3>{author.name}</h3>
 									<Button
 										buttonText={'Add author'}
@@ -289,13 +293,20 @@ export const CourseForm = () => {
 								<small className='requiredElements'> *is required</small>
 							</h2>
 							{authorsCourse?.length === 0 ? (
-								<h3 className='authorsSelected-emptyList'>
+								<h3
+									className='authorsSelected-emptyList'
+									role='courseAuthorListEmpty'
+								>
 									Author list is empty
 								</h3>
 							) : (
 								<div className='authors-choice'>
 									{authorsCourse?.map((authorId) => (
-										<div key={authorId} className='authorChoice-button'>
+										<div
+											role='courseAuthorList'
+											key={authorId}
+											className='authorChoice-button'
+										>
 											<h3>
 												{
 													allAuthors.find((person) => person.id === authorId)

@@ -14,15 +14,15 @@ export const Courses = () => {
 	const dispatch = useDispatch();
 	const [courses, setCourses] = useState([]);
 	const navigate = useNavigate();
-	const allInfoCourse = useSelector(theCourses);
-	const allCourses = allInfoCourse.courses;
-	const allInfoAuthors = useSelector(theAuthors);
-	const allAuthors = allInfoAuthors.authors;
+	// const allInfoCourse = useSelector(theCourses);
+	const allCourses = useSelector(theCourses).courses;
+	// const allInfoAuthors = useSelector(theAuthors);
+	const allAuthors = useSelector(theAuthors).authors;
 	const role = useSelector(theUser).role;
 
-	if (allCourses.length === 0) {
-		dispatch(showAllCourses());
-	}
+	// if (allCourses.length === 0) {
+	// 	dispatch(showAllCourses());
+	// }
 
 	const handleChildDataChange = (newData) => {
 		setCourses(newData);
@@ -48,13 +48,17 @@ export const Courses = () => {
 					/>
 				)}
 			</div>
-			{courses.length > 0
-				? courses.map((course) => (
-						<CourseCard key={course.id} {...course} allAuthors={allAuthors} />
-				  ))
-				: allCourses.map((course) => (
-						<CourseCard {...course} key={course.id} allAuthors={allAuthors} />
-				  ))}
+			{courses.length > 0 ? (
+				courses.map((course) => (
+					<CourseCard key={course.id} {...course} allAuthors={allAuthors} />
+				))
+			) : allCourses.length === 0 ? (
+				<div>No courses available</div>
+			) : (
+				allCourses.map((course) => (
+					<CourseCard {...course} key={course.id} allAuthors={allAuthors} />
+				))
+			)}
 		</>
 	);
 };
