@@ -14,15 +14,9 @@ export const Courses = () => {
 	const dispatch = useDispatch();
 	const [courses, setCourses] = useState([]);
 	const navigate = useNavigate();
-	// const allInfoCourse = useSelector(theCourses);
 	const allCourses = useSelector(theCourses).courses;
-	// const allInfoAuthors = useSelector(theAuthors);
 	const allAuthors = useSelector(theAuthors).authors;
 	const role = useSelector(theUser).role;
-
-	// if (allCourses.length === 0) {
-	// 	dispatch(showAllCourses());
-	// }
 
 	const handleChildDataChange = (newData) => {
 		setCourses(newData);

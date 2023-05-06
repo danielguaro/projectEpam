@@ -5,22 +5,18 @@ import {
 	initialState,
 } from './fixtures/coursesFixtures';
 
-describe('Tests on the coursesSlice', () => {
+describe('Tests on the coursesSlice (Reducer)', () => {
 	test('should return the initial state and be called "courses"', () => {
-		// console.log(coursesSlice);
 		expect(coursesSlice.name).toBe('courses');
 		const state = coursesSlice.reducer(initialState, {}); //Second argument is an action
-		// console.log(state);
 		expect(state).toEqual(initialState);
 	});
 
-	test('should handle SAVE_COURSE and return new state', () => {
-		// console.log(addNewEmptyCourse(demoCourse));
+	test('should save a course and return new state', () => {
 		const state = coursesSlice.reducer(
 			initialState,
 			addNewEmptyCourse(demoCourse)
 		);
-		// console.log(state);
 		expect(state).toEqual({
 			isSaving: true,
 			courses: [
@@ -38,13 +34,11 @@ describe('Tests on the coursesSlice', () => {
 	});
 
 	//
-	test('should handle GET_COURSES and returns new state', () => {
-		// console.log(addNewEmptyCourse(demoCourse));
+	test('should get all courses and returns new state', () => {
 		const state = coursesSlice.reducer(
 			initialState,
 			getAllCourses(demoCourses)
 		);
-		console.log(state);
 		expect(state).toEqual({
 			isSaving: true,
 			courses: [...demoCourses],

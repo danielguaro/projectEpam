@@ -45,11 +45,8 @@ describe('Tests in <Header/>', () => {
 	});
 
 	test('should have a img', () => {
-		// render, función que renderiza el componente en memoria
 		render(<Logo src={book_logo} />);
-		// screen.debug();
 		const img = screen.getByTestId('logo-img');
-		console.log(screen.getByRole('img').src); //  http://localhost/src/components/assets/bookLogo.png
 		expect(img).toHaveAttribute('src', expect.stringContaining('bookLogo.png'));
 	});
 

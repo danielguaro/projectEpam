@@ -1,13 +1,10 @@
 import { MemoryRouter, Route, Router, Routes } from 'react-router-dom';
-import { createBrowserHistory, createMemoryHistory } from 'history';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 import { CourseForm } from '../../CourseForm/CourseForm';
 import { Courses } from '../Courses';
-import { CoursesRoutes } from '../../routes/CoursesRoutes';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import { useNavigate } from 'react-router-dom';
 
 const mockStore = configureStore([]);
 
@@ -67,9 +64,7 @@ describe('Tests Length in <Course/>', () => {
 			</Provider>
 		);
 		const courseCards = screen.getAllByTestId('course-card');
-		// console.log(courseCards.length);
 		const coursesState = storeMo.getState().courses.coursesState;
-		// console.log(coursesState.courses.length);
 
 		expect(courseCards.length).toBe(coursesState.courses.length);
 	});
@@ -163,7 +158,6 @@ describe('Tests admin functionality in <Course/>', () => {
 	});
 
 	test('should navigate to "/courses/add" after clicking "Add new course" button', async () => {
-		const navigate = jest.fn();
 		render(
 			<Provider store={storeMo}>
 				<MemoryRouter initialEntries={['/courses']}>
@@ -179,7 +173,6 @@ describe('Tests admin functionality in <Course/>', () => {
 		fireEvent.click(addCourseButton);
 
 		await waitFor(() => {
-			screen.debug();
 			const courseForm = screen.getByTestId('course-form');
 			expect(courseForm).toBeInTheDocument();
 			expect(
@@ -236,7 +229,7 @@ describe('Tests user limitation in <Course/>', () => {
 		});
 	});
 
-	test('should display buttons', () => {
+	test('should not display buttons', () => {
 		render(
 			<Provider store={storeMo}>
 				<MemoryRouter>

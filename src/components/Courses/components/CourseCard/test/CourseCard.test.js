@@ -13,14 +13,7 @@ describe('Tests Title in <CourseCard/>', () => {
 	beforeEach(() => {
 		store = mockStore({
 			user: {
-				userState: {
-					// isAuth: true,
-					// name: 'Daniel test',
-					// email: 'dani@example.com',
-					// token: 'fake_token',
-					// role: 'admin',
-					// message: '',
-				},
+				userState: {},
 			},
 			courses: {
 				coursesState: [],
@@ -31,6 +24,7 @@ describe('Tests Title in <CourseCard/>', () => {
 		});
 	});
 
+	// Tests for title (3)
 	test('should display the title', () => {
 		const title = 'TitleExample';
 		render(
@@ -90,21 +84,17 @@ describe('Tests Title in <CourseCard/>', () => {
 			</Provider>
 		);
 		const titleElement = screen.queryByText(/example title/i); // must be null
-		// the i means that will search for a str without care if is upper or lower
 		expect(titleElement).not.toBeInTheDocument();
 	});
 });
 
-// Test for description
+// Test for description (2)
 describe('Tests description in <CourseCard/>', () => {
 	let store;
 	beforeEach(() => {
 		store = mockStore({
 			user: {
-				userState: {
-					isAuth: true,
-					role: 'admin',
-				},
+				userState: {},
 			},
 			courses: {
 				coursesState: [],
@@ -156,16 +146,13 @@ describe('Tests description in <CourseCard/>', () => {
 	});
 });
 
-// Test for duration
+// Test for duration (4)
 describe('Tests duration in <CourseCard/>', () => {
 	let store;
 	beforeEach(() => {
 		store = mockStore({
 			user: {
-				userState: {
-					isAuth: true,
-					role: 'admin',
-				},
+				userState: {},
 			},
 			courses: {
 				coursesState: [],
@@ -237,32 +224,7 @@ describe('Tests duration in <CourseCard/>', () => {
 		expect(durationElement).toBeInTheDocument();
 	});
 
-	// test('should throw error when duration is not passed as prop', () => {
-	// 	const originalError = console.error;
-	// 	console.error = jest.fn();
-
-	// 	expect(() =>
-	// 		render(
-	// 			<Provider store={store}>
-	// 				<MemoryRouter>
-	// 					<CourseCard
-	// 						id={1}
-	// 						title={'Example title'}
-	// 						description={'Example description'}
-	// 						creationDate={'4/05/2023'}
-	// 						authors={[1]}
-	// 						allAuthors={[{ name: 'Daniel', id: 1 }]}
-	// 					/>
-	// 				</MemoryRouter>
-	// 			</Provider>
-	// 		)
-	// 	).toThrow();
-
-	// 	expect(console.error).toHaveBeenCalled();
-	// 	console.error = originalError;
-	// });
-
-	test('should display "Duration not available" when duration is not passed as prop', () => {
+	test('should not display "Duration" when duration is not passed as prop', () => {
 		render(
 			<Provider store={store}>
 				<MemoryRouter>
@@ -283,16 +245,13 @@ describe('Tests duration in <CourseCard/>', () => {
 	});
 });
 
-// Test for authors list
+// Test for authors list (3)
 describe('Tests authorList in <CourseCard/>', () => {
 	let store;
 	beforeEach(() => {
 		store = mockStore({
 			user: {
-				userState: {
-					isAuth: true,
-					role: 'admin',
-				},
+				userState: {},
 			},
 			courses: {
 				coursesState: [],
@@ -376,16 +335,13 @@ describe('Tests authorList in <CourseCard/>', () => {
 	});
 });
 
-// Test for created date
+// Test for created date (2)
 describe('Tests date in <CourseCard/>', () => {
 	let store;
 	beforeEach(() => {
 		store = mockStore({
 			user: {
-				userState: {
-					isAuth: true,
-					role: 'admin',
-				},
+				userState: {},
 			},
 			courses: {
 				coursesState: [],
@@ -413,10 +369,10 @@ describe('Tests date in <CourseCard/>', () => {
 				</MemoryRouter>
 			</Provider>
 		);
-		screen.debug();
 		const dateElement = screen.getByText(`Created: ${date}`);
 		expect(dateElement).toBeInTheDocument();
 	});
+
 	test('should display 05/04/2023', () => {
 		const date = '05/04/2023';
 		render(
@@ -434,7 +390,7 @@ describe('Tests date in <CourseCard/>', () => {
 				</MemoryRouter>
 			</Provider>
 		);
-		screen.debug();
+
 		const dateElement = screen.getByText(`Created: ${date}`);
 		expect(dateElement).toBeInTheDocument();
 	});
